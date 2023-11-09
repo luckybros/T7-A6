@@ -41,10 +41,10 @@ L'intera applicazione è adesso pienamente configurata e raggiungibile sulla por
 ## Admin
 
 
-https://github.com/Testing-Game-SAD-2023/T11-G41/assets/...
+![Guarda il mio video](Video/Admin.mp4)
 
 
 
 ## Player
 
-https://github.com/Testing-Game-SAD-2023/T11-G41/assets/...
+![Guarda il mio video](Video/player.mp4)
