@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"embed"
+	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -11,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -29,6 +32,9 @@ import (
 	"golang.org/x/sync/errgroup"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"path/filepath"
+	"sort"
 )
 
 type Configuration struct {
@@ -390,3 +396,120 @@ func setupRoutes(gc *game.Controller, rc *round.Controller, tc *turn.Controller,
 
 	return r
 }
+
+// AGGIUNTO DA FALINO
+// Make sure to update the file path in the filePath variable with the actual path to the CSV file.
+// Adjust the code accordingly based on your CSV file's structure and the fields you want to compare.
+
+func loadMetadataFromCSV(filePath string) ([]model.Metadata, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var metadataSlice []model.Metadata
+	for _, record := range records {
+		// Assuming your CSV has columns like ID, CreatedAt, UpdatedAt, TurnID, Path, etc.
+		idStr := record[0]
+		createdAtStr := record[1]
+		updatedAtStr := record[2]
+		turnIDStr := record[3]
+		path := record[4]
+
+		id_metadata, err := strconv.ParseInt(idStr, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+
+		createdAt, err := time.Parse(time.RFC3339, createdAtStr)
+		if err != nil {
+			return nil, err
+		}
+
+		updatedAt, err := time.Parse(time.RFC3339, updatedAtStr)
+		if err != nil {
+			return nil, err
+		}
+
+		var turnID sql.NullInt64
+		if turnIDStr != "" {
+			turnIDInt, err := strconv.ParseInt(turnIDStr, 10, 64)
+			if err != nil {
+				return nil, err
+			}
+			turnID = sql.NullInt64{Int64: turnIDInt, Valid: true}
+		}
+
+		// Create a Metadata object based on your CSV structure
+		metadata := model.Metadata{
+			ID:        id_metadata,
+			CreatedAt: createdAt,
+			UpdatedAt: updatedAt,
+			TurnID:    turnID,
+			Path:      path,
+			// Add more fields as needed
+		}
+
+		metadataSlice = append(metadataSlice, metadata)
+	}
+
+	return metadataSlice, nil
+}
+
+func compareMetadataWithCSV(db *gorm.DB, c Configuration) error {
+	// Assuming your CSV file contains Metadata
+	// Update the file path based on your actual file location
+	filePath := filepath.Join("your", "new", "file", "path", "metadata.csv")
+	fileMetadata, err := loadMetadataFromCSV(filePath)
+	if err != nil {
+		return err
+	}
+
+	var dbMetadata []model.Metadata
+	if err := db.Find(&dbMetadata).Error; err != nil {
+		return err
+	}
+
+	// Sort slices for easier comparison
+	sort.Slice(fileMetadata, func(i, j int) bool {
+		return fileMetadata[i].ID < fileMetadata[j].ID
+	})
+	sort.Slice(dbMetadata, func(i, j int) bool {
+		return dbMetadata[i].ID < dbMetadata[j].ID
+	})
+
+	// Compare the slices
+	if !metadataSlicesEqual(fileMetadata, dbMetadata) {
+		log.Println("Metadata in the file and database are different.")
+	} else {
+		log.Println("Metadata in the file and database are identical.")
+	}
+
+	return nil
+}
+
+func metadataSlicesEqual(a, b []model.Metadata) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i, metadataA := range a {
+		if metadataA.ID != b[i].ID || metadataA.CreatedAt != b[i].CreatedAt ||
+			metadataA.UpdatedAt != b[i].UpdatedAt || metadataA.TurnID != b[i].TurnID ||
+			metadataA.Path != b[i].Path {
+			return false
+		}
+		// Add more fields for comparison if needed
+	}
+
+	return true
+}
+
+// FINE AGGIUNTO DA FALINO
