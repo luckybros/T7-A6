@@ -20,6 +20,7 @@ type Round struct {
 
 type CreateRequest struct {
 	GameId      int64      `json:"gameId"`
+	Order       int        `json:"order"` // GRUPPO A3
 	TestClassId string     `json:"testClassId"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 	ClosedAt    *time.Time `json:"closedAt,omitempty"`
