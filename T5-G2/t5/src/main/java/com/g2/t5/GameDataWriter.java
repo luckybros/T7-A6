@@ -22,9 +22,10 @@ import com.g2.Model.Game;
 public class GameDataWriter {
 
     private final HttpClient httpClient = HttpClientBuilder.create().build();
-
+                                    // PERCORSO DA MODIFICARE, DEVE DIVENTARE DINAMICO, VEDI DOCUMENTAZIONE
     private static String CSV_FILE_PATH = "/app/AUTName/StudentLogin/GameId/GameData.csv";
 
+    // AGGIUNTA IN 2.0
     public long getGameId() {
         long gameId = -1;
 
@@ -48,7 +49,7 @@ public class GameDataWriter {
 
         return gameId;
     }
-
+    // MODIFICATA IN 2.0
     public JSONObject saveGame(Game game) {
         try {
             String time = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
@@ -148,6 +149,7 @@ public class GameDataWriter {
 
     }
 
+    // AGGIUNTA IN 2.0
     public boolean saveGameCSV(Game game) {
         File file = new File(CSV_FILE_PATH);
 
@@ -203,4 +205,5 @@ public class GameDataWriter {
         }
 
     }
+    // FINE MODIFICHE 2.0
 }
