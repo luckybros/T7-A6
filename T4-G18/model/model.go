@@ -7,6 +7,7 @@ import (
 
 type Game struct {
 	CurrentRound int   `gorm:"default:1"`
+	RoundsNumber int   `gorm:"default:3"` // GRUPPO A3
 	ID           int64 `gorm:"primaryKey;autoIncrement"`
 	Name         string
 	Description  sql.NullString `gorm:"default:null"`

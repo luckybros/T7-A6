@@ -9,6 +9,7 @@ import (
 
 type Game struct {
 	ID           int64      `json:"id"`
+	RoundsNumber int        `json:"roundsNumber"` // GRUPPO A3
 	CurrentRound int        `json:"currentRound"`
 	Description  string     `json:"description"`
 	Difficulty   string     `json:"difficulty"`
@@ -81,9 +82,11 @@ func (AccountIdType) Parse(s string) (AccountIdType, error) {
 func (a AccountIdType) AsString() string {
 	return string(a)
 }
+
 func fromModel(g *model.Game) Game {
 	return Game{
 		ID:           g.ID,
+		RoundsNumber: g.RoundsNumber, // GRUPPO A3
 		CurrentRound: g.CurrentRound,
 		Difficulty:   g.Difficulty,
 		Description:  g.Description.String,
@@ -94,7 +97,6 @@ func fromModel(g *model.Game) Game {
 		ClosedAt:     g.ClosedAt,
 		Players:      parsePlayers(g.Players),
 	}
-
 }
 
 func parsePlayers(players []model.Player) []Player {

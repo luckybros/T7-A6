@@ -91,6 +91,23 @@ func (rs *Repository) FindByGame(id int64) ([]Round, error) {
 	return resp, api.MakeServiceError(err)
 }
 
+// GRUPPO A3
+func (rs *Repository) FindByGameAndRound(id int64) (Round, error) {
+	var round model.Round
+	var game model.Game
+
+	currentRound := game.CurrentRound
+
+	err := rs.db.
+		Where(&model.Round{GameID: id, Order: currentRound}).
+		Find(&round).
+		Error
+
+	resp := fromModel(&round)
+
+	return resp, api.MakeServiceError(err)
+}
+
 func (rs *Repository) Delete(id int64) error {
 	err := rs.db.Transaction(func(tx *gorm.DB) error {
 		var round model.Round
