@@ -218,6 +218,7 @@ public class GuiController {
     // verificato un errore interno");
     // }
 
+    // MODIFICATA IN 2.0
     @PostMapping("/save-data")
     public ResponseEntity<String> saveGame(@RequestParam("playerId") int playerId, @RequestParam("robot") String robot,
             @RequestParam("classe") String classe, @RequestParam("difficulty") String difficulty,
@@ -260,6 +261,7 @@ public class GuiController {
 
         return ResponseEntity.ok(ids.toString());
     }
+    // FINE MODIFICHE DI 2.0
 
     // @PostMapping("/download")
     // public ResponseEntity<Resource> downloadFile(@RequestParam("elementId")

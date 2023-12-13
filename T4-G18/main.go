@@ -2,9 +2,7 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"embed"
-	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -13,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 	"time"
 
@@ -32,9 +29,6 @@ import (
 	"golang.org/x/sync/errgroup"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
-	"path/filepath"
-	"sort"
 )
 
 type Configuration struct {
@@ -85,6 +79,38 @@ func main() {
 	if err := run(ctx, configuration); err != nil {
 		log.Fatal(err)
 	}
+
+	//A3
+	// Inizializza la connessioen al DB
+	db, err := gorm.Open(postgres.Open(configuration.PostgresUrl), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Stabilisce quali dati prendere dal DB (servono ID, Name, ecc... dal file system)
+	savedData := &model.Game{
+		ID:         1,          //TODO Rimpiazzare con il vero ID
+		Name:       "GameName", //TODO Rimpiazzare con il vero nome
+		Difficulty: "Easy",     //TODO Rimpiazzare con la vero difficoltà
+		//TODO Aggiungere altri campi se necessario
+	}
+
+	// Prende i dati dal DB in base all'id
+	databaseData, err := getGameDataFromDatabase(db, savedData.ID)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Confrontiamo i dati
+	match := compareGameData(savedData, databaseData)
+	if match {
+		fmt.Println("I dati sono uguali!")
+	} else {
+		fmt.Println("I dati NON sono uguali.")
+		//TODO caricare nel DB il più recente
+	}
+	//FINE A3
+
 }
 
 func run(ctx context.Context, c Configuration) error {
@@ -397,119 +423,22 @@ func setupRoutes(gc *game.Controller, rc *round.Controller, tc *turn.Controller,
 	return r
 }
 
-// AGGIUNTO DA FALINO
-// Make sure to update the file path in the filePath variable with the actual path to the CSV file.
-// Adjust the code accordingly based on your CSV file's structure and the fields you want to compare.
+// A3
 
-func loadMetadataFromCSV(filePath string) ([]model.Metadata, error) {
-	file, err := os.Open(filePath)
-	if err != nil {
+// Questa funzione recupera i dati dal DB in base all'ID della partita
+func getGameDataFromDatabase(db *gorm.DB, gameID int64) (*model.Game, error) {
+	var game model.Game
+	if err := db.First(&game, gameID).Error; err != nil {
 		return nil, err
 	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		return nil, err
-	}
-
-	var metadataSlice []model.Metadata
-	for _, record := range records {
-		// Assuming your CSV has columns like ID, CreatedAt, UpdatedAt, TurnID, Path, etc.
-		idStr := record[0]
-		createdAtStr := record[1]
-		updatedAtStr := record[2]
-		turnIDStr := record[3]
-		path := record[4]
-
-		id_metadata, err := strconv.ParseInt(idStr, 10, 64)
-		if err != nil {
-			return nil, err
-		}
-
-		createdAt, err := time.Parse(time.RFC3339, createdAtStr)
-		if err != nil {
-			return nil, err
-		}
-
-		updatedAt, err := time.Parse(time.RFC3339, updatedAtStr)
-		if err != nil {
-			return nil, err
-		}
-
-		var turnID sql.NullInt64
-		if turnIDStr != "" {
-			turnIDInt, err := strconv.ParseInt(turnIDStr, 10, 64)
-			if err != nil {
-				return nil, err
-			}
-			turnID = sql.NullInt64{Int64: turnIDInt, Valid: true}
-		}
-
-		// Create a Metadata object based on your CSV structure
-		metadata := model.Metadata{
-			ID:        id_metadata,
-			CreatedAt: createdAt,
-			UpdatedAt: updatedAt,
-			TurnID:    turnID,
-			Path:      path,
-			// Add more fields as needed
-		}
-
-		metadataSlice = append(metadataSlice, metadata)
-	}
-
-	return metadataSlice, nil
+	return &game, nil
 }
 
-func compareMetadataWithCSV(db *gorm.DB, c Configuration) error {
-	// Assuming your CSV file contains Metadata
-	// Update the file path based on your actual file location
-	filePath := filepath.Join("your", "new", "file", "path", "metadata.csv")
-	fileMetadata, err := loadMetadataFromCSV(filePath)
-	if err != nil {
-		return err
-	}
-
-	var dbMetadata []model.Metadata
-	if err := db.Find(&dbMetadata).Error; err != nil {
-		return err
-	}
-
-	// Sort slices for easier comparison
-	sort.Slice(fileMetadata, func(i, j int) bool {
-		return fileMetadata[i].ID < fileMetadata[j].ID
-	})
-	sort.Slice(dbMetadata, func(i, j int) bool {
-		return dbMetadata[i].ID < dbMetadata[j].ID
-	})
-
-	// Compare the slices
-	if !metadataSlicesEqual(fileMetadata, dbMetadata) {
-		log.Println("Metadata in the file and database are different.")
-	} else {
-		log.Println("Metadata in the file and database are identical.")
-	}
-
-	return nil
+// Questa funzione compara i dati dal DB (T4) con i dati nel file system 
+func compareGameData(savedData *model.Game, databaseData *model.Game) bool {
+	// Compare relevant fields
+	return savedData.Name == databaseData.Name &&
+		savedData.Difficulty == databaseData.Difficulty // Add more comparisons as needed
 }
 
-func metadataSlicesEqual(a, b []model.Metadata) bool {
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i, metadataA := range a {
-		if metadataA.ID != b[i].ID || metadataA.CreatedAt != b[i].CreatedAt ||
-			metadataA.UpdatedAt != b[i].UpdatedAt || metadataA.TurnID != b[i].TurnID ||
-			metadataA.Path != b[i].Path {
-			return false
-		}
-		// Add more fields for comparison if needed
-	}
-
-	return true
-}
-
-// FINE AGGIUNTO DA FALINO
+// FINE A3

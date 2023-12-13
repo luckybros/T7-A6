@@ -26,6 +26,7 @@ public class GameDataWriter {
     private static String CSV_FILE_PATH = "/app/AUTName/StudentLogin/";
     private static String CSV_FILE_NAME = "/GameData.csv";
 
+    // AGGIUNTA IN 2.0
     public long getGameId() {
         long gameId = -1;
 
@@ -49,7 +50,7 @@ public class GameDataWriter {
 
         return gameId;
     }
-
+    // MODIFICATA IN 2.0
     public JSONObject saveGame(Game game) {
         try {
             String time = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
@@ -212,4 +213,5 @@ public class GameDataWriter {
         }
 
     }
+    // FINE MODIFICHE 2.0
 }
