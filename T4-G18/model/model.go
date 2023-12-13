@@ -17,7 +17,7 @@ type Game struct {
 	StartedAt   *time.Time     `gorm:"default:null"`
 	ClosedAt    *time.Time     `gorm:"default:null"`
 	Players     []Player       `gorm:"many2many:player_games;foreignKey:ID;joinForeignKey:GameID;References:AccountID;joinReferences:PlayerID"`
-	Robot       Robot          `gorm:"not null"`
+	Robot       Robot          `gorm:"foreignKey:ID"`
 	// Future implementazione di partite con più rounds
 	//Rounds       []Round    		`gorm:"foreignKey:GameID;constraint:OnDelete:CASCADE;"`
 }
