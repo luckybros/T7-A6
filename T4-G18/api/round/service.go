@@ -96,7 +96,7 @@ func (rs *Repository) FindByGameAndRound(id int64) (Round, error) {
 	var round model.Round
 	var game model.Game
 
-	currentRound := game.CurrentRound
+	currentRound := game.Round
 
 	err := rs.db.
 		Where(&model.Round{GameID: id, Order: currentRound}).

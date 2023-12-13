@@ -1,0 +1,58 @@
+\---AUTName
+    +---AUTSourceCode
+    |       AUTClass.java
+    |       
+    +---RobotTest
+    |   +---EvoSuiteTest
+    |   |   +---Level1
+    |   |   |   +---TestReport
+    |   |   |   	\---TestSourceCode
+    |   |   +---Level2
+    |   |   |   +---TestReport
+    |   |   |   	\---TestSourceCode
+    |   |   \---LevelXX
+    |   |       +---TestReport
+    |   |       	\---TestSourceCode
+    |   \---RandoopTest
+    |       +---Level1
+    |       |   +---TestReport
+    |       |   	\---TestSourceCode
+    |       +---Level2
+    |       |   +---TestReport
+    |       |   	\---TestSourceCode
+    |       \---LevelXX
+    |           +---TestReport
+    |           	\---TestSourceCode
+    |
+    \---StudentLogin
+        \---Player1
+	|	\---Game1
+	|	|	+---Round1
+	|	|		+---Turn1
+        |   	|		|	\---GameData.csv
+        |      	|		|
+        |   	|		|	+---TestReport
+        |    	|		|		\---TestSourceCode
+	|	|		|
+	|	|		+---Turn2
+        |   	|			\---GameData.csv
+        |      	|		
+        |   	|			+---TestReport
+        |    	|				\---TestSourceCode
+	|	|
+	|	\---Game2
+	|	|	+---Round2
+	|	|		+---Turn1
+        |   	|		|	\---GameData.csv
+        |      	|		|
+        |   	|		|	+---TestReport
+        |    	|		|		\---TestSourceCode
+	|	|		|
+	|	|		+---Turn2
+        |   	|			\---GameData.csv
+        |      	|		
+        |   	|			+---TestReport
+        |    	|				\---TestSourceCode
+	|	|
+	\---PlayerXX
+		...

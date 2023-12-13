@@ -236,6 +236,7 @@ public class GuiController {
 
         Game g = new Game(playerId, "descrizione", "nome", difficulty);
 
+        // Aggiungere orario alla data
         g.setCreatedAt(LocalDate.now());
         g.setTestedClass(classe);
         g.setRobot(robot);
@@ -246,10 +247,13 @@ public class GuiController {
             return ResponseEntity.badRequest().body("Bad Request");
 
         long gameID = ids.getLong("game_id");
+        int roundID = ids.getInt("round_id");
+        int turnID = ids.getInt("turn_id");
 
         g.setId(gameID);
+        g.setRound(roundID);
 
-        boolean saved = gameDataWriter.saveGameCSV(g);
+        boolean saved = gameDataWriter.saveGameCSV(g, turnID);
 
         if (!saved)
             return ResponseEntity.internalServerError().body("Game not saved in filesystem");

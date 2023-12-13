@@ -23,7 +23,8 @@ public class GameDataWriter {
 
     private final HttpClient httpClient = HttpClientBuilder.create().build();
 
-    private static String CSV_FILE_PATH = "/app/AUTName/StudentLogin/GameId/GameData.csv";
+    private static String CSV_FILE_PATH = "/app/AUTName/StudentLogin/";
+    private static String CSV_FILE_NAME = "/GameData.csv";
 
     public long getGameId() {
         long gameId = -1;
@@ -34,7 +35,7 @@ public class GameDataWriter {
 
             List<CSVRecord> records = csvParser.getRecords();
 
-            if (!records.isEmpty()) {
+            if (records.size() > 1) {
                 CSVRecord lastRecord = records.get(records.size() - 1);
                 gameId = Long.parseLong(lastRecord.get(0));
             }
@@ -106,12 +107,12 @@ public class GameDataWriter {
             responseObj = new JSONObject(responseBody);
 
             // salvo il round id che l'Api mi restituisce
-            Integer round_id = responseObj.getInt("id");
+            Integer roundID = responseObj.getInt("id");
 
             JSONObject turn = new JSONObject();
 
             turn.put("players", playersArray);
-            turn.put("roundId", round_id);
+            turn.put("roundId", roundID);
             turn.put("startedAt", time);
 
             httpPost = new HttpPost("http://t4-g18-app-1:3000/turns");
@@ -133,12 +134,12 @@ public class GameDataWriter {
             JSONArray responseArrayObj = new JSONArray(responseBody);
 
             // salvo il turn id che l'Api mi restituisce
-            Integer turn_id = responseArrayObj.getJSONObject(0).getInt("id");
+            Integer turnID = responseArrayObj.getJSONObject(0).getInt("id");
 
             JSONObject resp = new JSONObject();
             resp.put("game_id", gameID);
-            resp.put("round_id", round_id);
-            resp.put("turn_id", turn_id);
+            resp.put("round_id", roundID);
+            resp.put("turn_id", turnID);
 
             return resp;
         } catch (IOException e) {
@@ -148,8 +149,15 @@ public class GameDataWriter {
 
     }
 
-    public boolean saveGameCSV(Game game) {
-        File file = new File(CSV_FILE_PATH);
+    public boolean saveGameCSV(Game game, int turnID) {
+        long playerID = game.getPlayerId();
+        long gameID = game.getId();
+        int roundID = game.getRound();
+        
+        // Al path bisogna aggiungere PlayerID/GameID/RoundID/TurnID e poi il nome del file
+        String fileName = CSV_FILE_PATH + playerID + "/" + gameID + "/" + roundID + "/" + turnID + CSV_FILE_NAME;
+
+        File file = new File(fileName);
 
         try {
             Writer writer = new FileWriter(file, true);
@@ -199,6 +207,7 @@ public class GameDataWriter {
         } catch (IOException e) {
             System.out.println("Errore durante la scrittura del file CSV.");
             e.printStackTrace();
+
             return false;
         }
 
