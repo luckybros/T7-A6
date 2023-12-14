@@ -26,7 +26,6 @@ func (rs *Repository) Create(r *CreateRequest) (Round, error) {
 
 		var lastRound model.Round
 		err := tx.Where(&model.Round{GameID: r.GameId}).
-			Order("\"order\" desc").
 			Last(&lastRound).
 			Error
 
@@ -39,7 +38,6 @@ func (rs *Repository) Create(r *CreateRequest) (Round, error) {
 			TestClassId: r.TestClassId,
 			StartedAt:   r.StartedAt,
 			ClosedAt:    r.ClosedAt,
-			Order:       lastRound.Order + 1,
 		}
 
 		return tx.Create(&round).Error
@@ -79,7 +77,6 @@ func (rs *Repository) FindByGame(id int64) ([]Round, error) {
 
 	err := rs.db.
 		Where(&model.Round{GameID: id}).
-		Order("\"order\" asc").
 		Find(&rounds).
 		Error
 
@@ -87,23 +84,6 @@ func (rs *Repository) FindByGame(id int64) ([]Round, error) {
 	for i, round := range rounds {
 		resp[i] = fromModel(&round)
 	}
-
-	return resp, api.MakeServiceError(err)
-}
-
-// GRUPPO A3
-func (rs *Repository) FindByGameAndRound(id int64) (Round, error) {
-	var round model.Round
-	var game model.Game
-
-	currentRound := game.Round
-
-	err := rs.db.
-		Where(&model.Round{GameID: id, Order: currentRound}).
-		Find(&round).
-		Error
-
-	resp := fromModel(&round)
 
 	return resp, api.MakeServiceError(err)
 }
@@ -125,8 +105,6 @@ func (rs *Repository) Delete(id int64) error {
 		err := rs.db.
 			Model(&model.Round{}).
 			Where(&model.Round{GameID: round.GameID}).
-			Where("\"order\" > ?", round.Order).
-			UpdateColumn("order", gorm.Expr("\"order\" - ?", 1)).
 			Error
 
 		return err
