@@ -9,7 +9,6 @@ import (
 
 type Round struct {
 	ID          int64      `json:"id"`
-	Order       int        `json:"order"`
 	TestClassId string     `json:"testClassId"`
 	GameID      int64      `json:"gameId"`
 	CreatedAt   time.Time  `json:"createdAt"`
@@ -20,7 +19,6 @@ type Round struct {
 
 type CreateRequest struct {
 	GameId      int64      `json:"gameId"`
-	Order       int        `json:"order"` // GRUPPO A3
 	TestClassId string     `json:"testClassId"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 	ClosedAt    *time.Time `json:"closedAt,omitempty"`
@@ -53,7 +51,6 @@ func (k KeyType) AsInt64() int64 {
 func fromModel(r *model.Round) Round {
 	return Round{
 		ID:          r.ID,
-		Order:       r.Order,
 		CreatedAt:   r.CreatedAt,
 		UpdatedAt:   r.UpdatedAt,
 		TestClassId: r.TestClassId,

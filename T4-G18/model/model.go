@@ -53,7 +53,6 @@ func (Player) TableName() string {
 
 type Round struct {
 	ID          int64      `gorm:"primaryKey;autoIncrement"`
-	Order       int        `gorm:"not null;default:1"`
 	StartedAt   *time.Time `gorm:"default:null"`
 	ClosedAt    *time.Time `gorm:"default:null"`
 	UpdatedAt   time.Time  `gorm:"autoUpdateTime"`
