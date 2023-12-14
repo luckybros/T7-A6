@@ -18,7 +18,7 @@ services:
       - global-network      
 
   mongo_db:
-    image: "mongo:6.0.6"
+    image: "mongo:4.4.18"
     restart: always
     ports:
       - 27017:27017
