@@ -123,9 +123,15 @@ func parsePlayers(players []model.Player) []Player {
 }
 
 func parseRobot(robot model.Robot) Robot {
-	rob := Robot{
-		ID: robot.ID,
+	parsedRobot := Robot{
+		ID:          robot.ID,
+		CreatedAt:   robot.CreatedAt,
+		UpdatedAt:   robot.UpdatedAt,
+		TestClassId: robot.TestClassId,
+		Difficulty:  robot.Difficulty,
+		Type:        robot.Type,
+		Scores:      robot.Scores,
 	}
 
-	return rob
+	return parsedRobot
 }
