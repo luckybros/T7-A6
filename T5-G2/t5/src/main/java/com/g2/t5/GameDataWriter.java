@@ -50,6 +50,7 @@ public class GameDataWriter {
 
         return gameId;
     }
+
     // MODIFICATA IN 2.0
     public JSONObject saveGame(Game game) {
         try {
@@ -154,8 +155,8 @@ public class GameDataWriter {
         long playerID = game.getPlayerId();
         long gameID = game.getId();
         int roundID = game.getRound();
-        
-        // Al path bisogna aggiungere PlayerID/GameID/RoundID/TurnID e poi il nome del file
+
+        // Il file name sarà: /app/AUTName/StudentLogin/PlayerID/GameID/RoundID/TurnID/GameData.csv
         String fileName = CSV_FILE_PATH + playerID + "/" + gameID + "/" + roundID + "/" + turnID + CSV_FILE_NAME;
 
         File file = new File(fileName);
@@ -168,35 +169,33 @@ public class GameDataWriter {
                 file.createNewFile();
 
                 csvPrinter.printRecord(
-                    "GameID",
-                    "Name",
-                    "Round",
-                    "Class",
-                    "Description",
-                    "Difficulty",
-                    "CreatedAt",
-                    "UpdatedAt",
-                    "StartedAt",
-                    "ClosedAt",
-                    "PlayerID",
-                    "Robot"
-                );
+                        "GameID",
+                        "Name",
+                        "Round",
+                        "Class",
+                        "Description",
+                        "Difficulty",
+                        "CreatedAt",
+                        "UpdatedAt",
+                        "StartedAt",
+                        "ClosedAt",
+                        "PlayerID",
+                        "Robot");
             }
 
             csvPrinter.printRecord(
-                game.getId(),
-                game.getName(),
-                game.getRound(),
-                game.getTestedClass(),
-                game.getDescription(),
-                game.getDifficulty(),
-                game.getCreatedAt().toString(),
-                game.getUpdateAt().toString(),
-                game.getStartedAt().toString(),
-                game.getClosedAt().toString(),
-                game.getPlayerId(),
-                game.getRobot()      
-            );
+                    game.getId(),
+                    game.getName(),
+                    game.getRound(),
+                    game.getTestedClass(),
+                    game.getDescription(),
+                    game.getDifficulty(),
+                    game.getCreatedAt().toString(),
+                    game.getUpdateAt().toString(),
+                    game.getStartedAt().toString(),
+                    game.getClosedAt().toString(),
+                    game.getPlayerId(),
+                    game.getRobot());
 
             csvPrinter.flush();
             csvPrinter.close();
