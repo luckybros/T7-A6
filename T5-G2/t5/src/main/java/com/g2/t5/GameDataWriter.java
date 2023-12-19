@@ -172,16 +172,19 @@ public class GameDataWriter {
             }
         }
 
-        File file = new File(fileName);
+        
 
         try {
-            Writer writer = new FileWriter(file, true);
-            CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
+            File file = new File(fileName);
 
             if (!file.exists()) {
                 file.createNewFile();
+            }
 
-                csvPrinter.printRecord(
+            FileWriter writer = new FileWriter(file);
+            CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.EXCEL);
+
+            csvPrinter.printRecord(
                     "GameID",
                     "Name",
                     "Round",
@@ -195,7 +198,6 @@ public class GameDataWriter {
                     "PlayerID",
                     "Robot"
                 );
-            }
 
             csvPrinter.printRecord(
                 game.getId(),
