@@ -124,11 +124,22 @@ func parsePlayers(players []model.Player) []Player {
 
 /*
 func parseRobot(robot model.Robot) Robot {
+<<<<<<< HEAD
 	rob := Robot{
 		ID: robot.ID,
 		//aggiungi altri campi
+=======
+	parsedRobot := Robot{
+		ID:          robot.ID,
+		CreatedAt:   robot.CreatedAt,
+		UpdatedAt:   robot.UpdatedAt,
+		TestClassId: robot.TestClassId,
+		Difficulty:  robot.Difficulty,
+		Type:        robot.Type,
+		Scores:      robot.Scores,
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 	}
 
-	return rob
+	return parsedRobot
 }
 */

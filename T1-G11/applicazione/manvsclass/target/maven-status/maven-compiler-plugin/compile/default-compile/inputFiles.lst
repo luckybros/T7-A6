@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\filesystem\upload\FileUploadResponse.java
 C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\filesystem\download\FileDownloadUtil.java
 C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\Admin.java
@@ -14,3 +15,21 @@ C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\
 C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\controller\HomeController.java
 C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\ClassRepository.java
 C:\Users\alber\Desktop\Programmazione\JAVA\A1-A8\A1-A8-2024\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\SearchRepository.java
+=======
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\controller\HomeController.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\filesystem\upload\FileUploadUtil.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\ClassRepository.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\SearchRepositoryImpl.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\OperationRepository.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\AdminRepository.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\ManvsclassApplication.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\InteractionRepository.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\Operation.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\Admin.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\filesystem\RobotUtil.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\filesystem\upload\FileUploadResponse.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\interaction.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\ClassUT.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\repository\SearchRepository.java
+C:\Users\valer\Desktop\T4-A3_2.0\T1-G11\applicazione\manvsclass\src\main\java\com\groom\manvsclass\model\filesystem\download\FileDownloadUtil.java
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc

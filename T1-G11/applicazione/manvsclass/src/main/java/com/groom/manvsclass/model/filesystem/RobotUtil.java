@@ -206,7 +206,11 @@ public class RobotUtil {
 		}
 	}
 
+<<<<<<< HEAD
 	public static void saveT4(int score, int livello, String className, String robotName) throws IOException{
+=======
+	public static void saveT4(int score, int livello, String className) throws IOException{
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 		// Configurazione di un client HTTP
 			HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -222,13 +226,22 @@ public class RobotUtil {
 			// l'array JSON viene utilizzato per raggruppare gli oggetti JSON che
 			// rappresentano le informazioni sui robot generati.
 			// L'array arr contiene una serie di oggetti rob, ognuno dei quali rappresenta
+<<<<<<< HEAD
 
+=======
+			// le caratteristiche di un robot specifico generato da Randoop.
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 
 			// Aggiunge al robot l'informazione relativa al punteggio convertito in stringa
 			rob.put("scores", String.valueOf(score));
 
 			// aggiunge al robot l'informazione relativa a quale robot è stato utilizzato,
+<<<<<<< HEAD
 			rob.put("type", robotName);
+=======
+			// in questo caso randoop
+			rob.put("type", "randoop");
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 
 			// aggiunge al robot l'informazione riguardante il livello di difficoltà
 			// converitto in stringa
@@ -325,7 +338,11 @@ public class RobotUtil {
 
 			System.out.println("La copertura del livello " + String.valueOf(livello) + " è: " + String.valueOf(score));
 
+<<<<<<< HEAD
 			saveT4(score, livello, className, randoopName);
+=======
+			saveT4(score, livello, className);
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 
 			// Se il livello del robot generato è superiore al livello massimo attuale,
 			// aggiorna il livello massimo.
@@ -350,7 +367,11 @@ public class RobotUtil {
 		Process processE = processBuilderE.start();
 
 		outputProcess(processE);
+<<<<<<< HEAD
 		String evosuiteName = "evosuite";
+=======
+
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 		File resultsDirE = new File("/VolumeT8/FolderTreeEvo/" + className + "/RobotTest/EvoSuiteTest");
 
         File resultsE [] = resultsDirE.listFiles();
@@ -362,7 +383,11 @@ public class RobotUtil {
 
 			System.out.println("La copertura del livello " + String.valueOf(livello) + " è: " + String.valueOf(score));
 
+<<<<<<< HEAD
 			saveT4(score, livello, className, evosuiteName);
+=======
+			saveT4(score, livello, className);
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 
 		}
 
@@ -432,7 +457,11 @@ public class RobotUtil {
 		// Questo valore sarà aggiornato successivamente durante l'analisi dei
 		// risultati.
 		int liv = 0; // livelli di robot prodotti da randoop
+<<<<<<< HEAD
 		String randoopName = "randoop";
+=======
+
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 		File results[] = resultsDir.listFiles();
 
 		// Itera attraverso tutti i file nella directory dei risultati della generazione
@@ -455,7 +484,11 @@ public class RobotUtil {
 
 			System.out.println("La copertura del livello " + String.valueOf(livello) + " è: " + String.valueOf(score));
 
+<<<<<<< HEAD
 			saveT4(score, livello, className, randoopName);
+=======
+			saveT4(score, livello, className);
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 
 			// Se il livello del robot generato è superiore al livello massimo attuale,
 			// aggiorna il livello massimo.
@@ -468,7 +501,11 @@ public class RobotUtil {
 		// Il seguente codice è l'adattamento ad evosuite del codice appena visto, i
 		// passaggi sono gli stessi
 		File resultsDirEvo = new File("/VolumeT8/FolderTreeEvo/" + className + "/RobotTest/EvoSuiteTest");
+<<<<<<< HEAD
 		String evosuiteName = "evosuite";
+=======
+
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
         File resultsEvo [] = resultsDirEvo.listFiles();
         for(File result : resultsEvo) {
 			int score = LineCoverageE(result.getAbsolutePath() + "/TestReport/statistics.csv");
@@ -478,7 +515,11 @@ public class RobotUtil {
 
 			System.out.println("La copertura del livello " + String.valueOf(livello) + " è: " + String.valueOf(score));
 
+<<<<<<< HEAD
 			saveT4(score, livello, className, evosuiteName);
+=======
+			saveT4(score, livello, className);
+>>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
 
 		}
 	}
