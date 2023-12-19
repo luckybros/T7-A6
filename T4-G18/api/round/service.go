@@ -1,7 +1,7 @@
 package round
 
 import (
-	"errors"
+	//"errors"
 
 	"github.com/alarmfox/game-repository/api"
 	"github.com/alarmfox/game-repository/model"
@@ -24,14 +24,16 @@ func (rs *Repository) Create(r *CreateRequest) (Round, error) {
 
 	err := rs.db.Transaction(func(tx *gorm.DB) error {
 
+		/*
 		var lastRound model.Round
 		err := tx.Where(&model.Round{GameID: r.GameId}).
 			Last(&lastRound).
 			Error
 
-		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+				if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
 		}
+		*/
 
 		round = model.Round{
 			GameID:      r.GameId,

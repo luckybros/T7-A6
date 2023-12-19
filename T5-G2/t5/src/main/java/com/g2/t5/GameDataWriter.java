@@ -204,10 +204,10 @@ public class GameDataWriter {
                 game.getTestedClass(),
                 game.getDescription(),
                 game.getDifficulty(),
-                game.getCreatedAt().toString(),
-                game.getUpdateAt().toString(),
-                game.getStartedAt().toString(),
-                game.getClosedAt().toString(),
+                game.getCreatedAt(),
+                game.getUpdateAt(),
+                game.getStartedAt(),
+                game.getClosedAt(),
                 game.getPlayerId(),
                 game.getRobot()      
             );
