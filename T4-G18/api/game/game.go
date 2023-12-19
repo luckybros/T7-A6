@@ -19,7 +19,7 @@ type Game struct {
 	StartedAt   *time.Time `json:"startedAt"`
 	ClosedAt    *time.Time `json:"closedAt"`
 	Players     []Player   `json:"players,omitempty"`
-	Robot       Robot      `json:"robot,omitempty"`
+	Robot       int64      `json:"robot,omitempty"`
 }
 
 type Player struct {
@@ -107,7 +107,7 @@ func fromModel(g *model.Game) Game {
 		StartedAt:   g.StartedAt,
 		ClosedAt:    g.ClosedAt,
 		Players:     parsePlayers(g.Players),
-		Robot:       parseRobot(g.Robot),
+		Robot:       g.Robot,
 	}
 }
 
@@ -122,10 +122,13 @@ func parsePlayers(players []model.Player) []Player {
 	return res
 }
 
+/*
 func parseRobot(robot model.Robot) Robot {
 	rob := Robot{
 		ID: robot.ID,
+		//aggiungi altri campi
 	}
 
 	return rob
 }
+*/

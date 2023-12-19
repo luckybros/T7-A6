@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -23,7 +26,7 @@ public class GameDataWriter {
 
     private final HttpClient httpClient = HttpClientBuilder.create().build();
 
-    private static String CSV_FILE_PATH = "/app/AUTName/StudentLogin/";
+    private static String CSV_FILE_PATH = "AUTName/StudentLogin/";
     private static String CSV_FILE_NAME = "/GameData.csv";
 
     // AGGIUNTA IN 2.0
@@ -157,6 +160,17 @@ public class GameDataWriter {
         
         // Al path bisogna aggiungere PlayerID/GameID/RoundID/TurnID e poi il nome del file
         String fileName = CSV_FILE_PATH + playerID + "/" + gameID + "/" + roundID + "/" + turnID + CSV_FILE_NAME;
+
+        Path path = Paths.get(fileName);
+ 
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path.getParent());
+            } catch (IOException e) {
+                System.out.println("Errore durante la creazione della directory.");
+                e.printStackTrace();
+            }
+        }
 
         File file = new File(fileName);
 

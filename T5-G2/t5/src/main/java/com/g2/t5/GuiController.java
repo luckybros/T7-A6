@@ -240,6 +240,7 @@ public class GuiController {
         // Aggiungere orario alla data
         g.setCreatedAt(LocalDate.now());
         g.setTestedClass(classe);
+
         g.setRobot(robot);
 
         JSONObject ids = gameDataWriter.saveGame(g);

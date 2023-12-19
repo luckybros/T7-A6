@@ -17,9 +17,25 @@ type Game struct {
 	StartedAt   *time.Time     `gorm:"default:null"`
 	ClosedAt    *time.Time     `gorm:"default:null"`
 	Players     []Player       `gorm:"many2many:player_games;foreignKey:ID;joinForeignKey:GameID;References:AccountID;joinReferences:PlayerID"`
-	Robot       Robot          `gorm:"foreignKey:ID"`
+	Robot       int64          `gorm:"default:null"`
 	// Future implementazione di partite con più rounds
 	//Rounds       []Round    		`gorm:"foreignKey:GameID;constraint:OnDelete:CASCADE;"`
+	/*
+			type Game struct {
+			CurrentRound int   `gorm:"default:1"`
+			ID           int64 `gorm:"primaryKey;autoIncrement"`
+			Name         string
+			Description  sql.NullString `gorm:"default:null"`
+			Difficulty   string
+			CreatedAt    time.Time  `gorm:"autoCreateTime"`
+			UpdatedAt    time.Time  `gorm:"autoUpdateTime"`
+			StartedAt    *time.Time `gorm:"default:null"`
+			ClosedAt     *time.Time `gorm:"default:null"`
+			Rounds       []Round    `gorm:"foreignKey:GameID;constraint:OnDelete:CASCADE;"`
+			Players      []Player   `gorm:"many2many:player_games;foreignKey:ID;joinForeignKey:GameID;References:AccountID;joinReferences:PlayerID"`
+		}
+	*/
+
 }
 
 func (Game) TableName() string {
