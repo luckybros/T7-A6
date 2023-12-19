@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.g2.t5.T5ApplicationTests
--------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.729 s - in com.g2.t5.T5ApplicationTests
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.96 s - in com.g2.t5.T5ApplicationTests
->>>>>>> ec648f64d0ed6fad41a3b6a7f50c36a639487dbc
