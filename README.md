@@ -1,8 +1,8 @@
 # Task 4 - Gruppo A3
 Componenti:
-- Valerio Domenico Conte - M63
-- Nike Di Giacomo - M63
-- Alessandro Dalino - M63
+- Valerio Domenico Conte - M63001606
+- Nike Di Giacomo - M63001641
+- Alessandro Falino - M63001658
 
 # GUIDA ALL'INSTALLAZIONE
 
