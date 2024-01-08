@@ -58,6 +58,10 @@ public class GuiController {
     // private Map<Integer, String> hashMap2 = new HashMap<>();
     // private final FileController fileController;
     private RestTemplate restTemplate;
+    private Game g;
+
+    private GameDataWriter gameDataWriter = new GameDataWriter();
+    
 
     @Autowired
     public GuiController(RestTemplate restTemplate) {
@@ -227,17 +231,14 @@ public class GuiController {
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
 
+        this.g = new Game(playerId, "descrizione", "nome", difficulty);
+
+        // Aggiungere orario alla data
         /*
          * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
          * LocalTime oraCorrente = LocalTime.now();
          * String oraFormattata = oraCorrente.format(formatter);
          */
-
-        GameDataWriter gameDataWriter = new GameDataWriter();
-
-        Game g = new Game(playerId, "descrizione", "nome", difficulty);
-
-        // Aggiungere orario alla data
         g.setCreatedAt(LocalDate.now());
         g.setTestedClass(classe);
 
@@ -261,6 +262,27 @@ public class GuiController {
             return ResponseEntity.internalServerError().body("Game not saved in filesystem");
 
         return ResponseEntity.ok(ids.toString());
+    }
+
+    @PostMapping("/update-data")
+    public ResponseEntity<String> updateGame(@RequestParam("playerId") int playerId, @RequestParam("turnID") int turnID,
+            HttpServletRequest request) {
+
+        if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
+            return ResponseEntity.badRequest().body("Unauthorized");
+
+        // TO DO: aggiornamento in database
+
+        boolean updated = gameDataWriter.updateGameCSV(g, turnID);
+
+        if (!updated)
+            return ResponseEntity.internalServerError().body("Game not saved in filesystem");
+
+        JSONObject nextTurn = new JSONObject();
+
+        nextTurn.put("turnId", turnID + 1);
+
+        return ResponseEntity.ok(nextTurn.toString());
     }
     // FINE MODIFICHE DI 2.0
 
