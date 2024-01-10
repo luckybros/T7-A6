@@ -57,6 +57,7 @@ public class GuiController {
     // private Map<Integer, String> hashMap = new HashMap<>();
     // private Map<Integer, String> hashMap2 = new HashMap<>();
     // private final FileController fileController;
+    
     private RestTemplate restTemplate;
 
     private Game g = new Game();

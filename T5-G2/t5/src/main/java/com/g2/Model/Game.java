@@ -7,7 +7,7 @@ GAME API T4
 type Game struct {
 	ID           int64      `json:"id"`
     Name         string     `json:"name"`
-    Round        int        `json:"round"` // VALE
+    Round        int        `json:"round"`
     Class        string     `json:"class"`
 	Description  string     `json:"description"`
 	Difficulty   string     `json:"difficulty"`
