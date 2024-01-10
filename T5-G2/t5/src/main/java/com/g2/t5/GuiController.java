@@ -273,7 +273,12 @@ public class GuiController {
         boolean updated = gameDataWriter.updateGameCSV(g, turnID);
 
         if (!updated)
-            return ResponseEntity.internalServerError().body("Game not saved in filesystem");
+            return ResponseEntity.internalServerError().body("Game not updated in filesystem");
+
+        boolean newTurnCreated = gameDataWriter.createNextTurnCSV(g, turnID);
+
+        if (!newTurnCreated)
+            return ResponseEntity.internalServerError().body("New turn not created in filesystem");
 
         JSONObject nextTurn = new JSONObject();
 

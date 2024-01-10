@@ -423,8 +423,6 @@ func setupRoutes(gc *game.Controller, rc *round.Controller, tc *turn.Controller,
 	return r
 }
 
-// A3
-
 // Questa funzione recupera i dati dal DB in base all'ID della partita
 func getGameDataFromDatabase(db *gorm.DB, gameID int64) (*model.Game, error) {
 	var game model.Game
@@ -434,11 +432,9 @@ func getGameDataFromDatabase(db *gorm.DB, gameID int64) (*model.Game, error) {
 	return &game, nil
 }
 
-// Questa funzione compara i dati dal DB (T4) con i dati nel file system 
+// Questa funzione compara i dati dal DB (T4) con i dati nel file system
 func compareGameData(savedData *model.Game, databaseData *model.Game) bool {
 	// Compare relevant fields
 	return savedData.Name == databaseData.Name &&
 		savedData.Difficulty == databaseData.Difficulty // Add more comparisons as needed
 }
-
-// FINE A3

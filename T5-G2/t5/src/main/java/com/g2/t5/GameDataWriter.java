@@ -118,6 +118,7 @@ public class GameDataWriter {
             turn.put("players", playersArray);
             turn.put("roundId", roundID);
             turn.put("startedAt", time);
+            turn.put("id", 1);
 
             httpPost = new HttpPost("http://t4-g18-app-1:3000/turns");
             jsonEntity = new StringEntity(turn.toString(), ContentType.APPLICATION_JSON);
@@ -132,18 +133,19 @@ public class GameDataWriter {
                 return null;
             }
 
+            /*
             responseEntity = httpResponse.getEntity();
             responseBody = EntityUtils.toString(responseEntity);
 
             JSONArray responseArrayObj = new JSONArray(responseBody);
 
-            // salvo il turn id che l'Api mi restituisce
             Integer turnID = responseArrayObj.getJSONObject(0).getInt("id");
+            */
 
             JSONObject resp = new JSONObject();
             resp.put("game_id", gameID);
             resp.put("round_id", roundID);
-            resp.put("turn_id", turnID);
+            resp.put("turn_id", 1);
 
             return resp;
         } catch (IOException e) {
@@ -296,7 +298,7 @@ public class GameDataWriter {
 
             System.out.println(gameID + " " + turnID + " aggiornato correttamente in File System.");
 
-            return createNextTurnCSV(game, tid + 1);
+            return true;
         } catch (IOException e) {
             System.out.println("Errore durante la scrittura del file CSV.");
             e.printStackTrace();
@@ -305,8 +307,8 @@ public class GameDataWriter {
         }
     }
 
-    private boolean createNextTurnCSV(Game game, int nextTurn) {
-        return saveGameCSV(game, nextTurn);
+    public boolean createNextTurnCSV(Game game, int turnId) {
+        return saveGameCSV(game, turnId + 1);
     }
     // FINE MODIFICHE 2.0
 }

@@ -23,6 +23,7 @@ type CreateRequest struct {
 	Players   []string   `json:"players"`
 	StartedAt *time.Time `json:"startedAt,omitempty"`
 	ClosedAt  *time.Time `json:"closedAt,omitempty"`
+	ID        int64      `json:"id"`
 }
 
 func (CreateRequest) Validate() error {

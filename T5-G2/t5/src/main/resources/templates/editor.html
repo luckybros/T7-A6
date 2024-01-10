@@ -456,7 +456,7 @@ public class TestClasse {
   </div>
 
     <script>
-      var turno = 0; // numero di turni giocati fino ad ora
+      var turno = 1; // numero di turni giocati fino ad ora
       var perc_robot = '0'; // percentuale di copertura del robot scelto
 
       const getCookie = (name) => {
@@ -822,14 +822,15 @@ public class TestClasse {
                     url:'http://localhost/api/update-data',
                     data: {
                       playerId: parseJwt(getCookie("jwt")).userId,
-                      turnID: turno + 1
+                      turnID: localStorage.getItem("turnId")
                     },
                     type:'POST',
                     success: function (response) {
-                      // Gestisci la risposta del server qui
+                      console.log(response);
+                      
                       localStorage.setItem("turnId", response.turn_id);
                       console.log(localStorage.getItem("turnId"));
-                      turno++; // incremento il numero di turno giocati fino ad ora
+
                       //window.location.href = "/editor";
                     },
                     dataType: "json",
