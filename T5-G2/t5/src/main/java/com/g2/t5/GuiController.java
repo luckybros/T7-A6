@@ -58,10 +58,10 @@ public class GuiController {
     // private Map<Integer, String> hashMap2 = new HashMap<>();
     // private final FileController fileController;
     private RestTemplate restTemplate;
-    private Game g;
+
+    private Game g = new Game();
 
     private GameDataWriter gameDataWriter = new GameDataWriter();
-    
 
     @Autowired
     public GuiController(RestTemplate restTemplate) {
@@ -169,18 +169,20 @@ public class GuiController {
         return "main";
     }
 
-    // @PostMapping("/sendVariable")
-    // public ResponseEntity<String>
-    // receiveVariableClasse(@RequestParam("myVariable") Integer myClassa,
-    // @RequestParam("myVariable2") Integer myRobota) {
-    // // Fai qualcosa con la variabile ricevuta
-    // System.out.println("Variabile ricevuta: " + myClassa);
-    // System.out.println("Variabile ricevuta: " + myRobota);
-    // myClass = myClassa;
-    // myRobot = myRobota;
-    // // Restituisci una risposta al client (se necessario)
-    // return ResponseEntity.ok("Dati ricevuti con successo");
-    // }
+    @PostMapping("/sendGameVariables")
+    public ResponseEntity<String> receiveVariableClasse(@RequestParam("classe") String classe,
+            @RequestParam("robot") String robot, @RequestParam("difficulty") String difficulty) {
+        
+        System.out.println("Variabile ricevuta: " + classe);
+        System.out.println("Variabile ricevuta: " + robot);
+        System.out.println("Variabile ricevuta: " + difficulty);
+
+        g.setTestedClass(classe);
+        g.setRobot(robot);
+        g.setDifficulty(difficulty);
+
+        return ResponseEntity.ok("Dati ricevuti con successo");
+    }
 
     @GetMapping("/report")
     public String reportPage(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
@@ -224,14 +226,11 @@ public class GuiController {
 
     // MODIFICATA IN 2.0
     @PostMapping("/save-data")
-    public ResponseEntity<String> saveGame(@RequestParam("playerId") int playerId, @RequestParam("robot") String robot,
-            @RequestParam("classe") String classe, @RequestParam("difficulty") String difficulty,
+    public ResponseEntity<String> saveGame(@RequestParam("playerId") int playerId,
             HttpServletRequest request) {
 
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
-
-        this.g = new Game(playerId, "descrizione", "nome", difficulty);
 
         // Aggiungere orario alla data
         /*
@@ -239,10 +238,8 @@ public class GuiController {
          * LocalTime oraCorrente = LocalTime.now();
          * String oraFormattata = oraCorrente.format(formatter);
          */
+        g.setPlayerId(playerId);
         g.setCreatedAt(LocalDate.now());
-        g.setTestedClass(classe);
-
-        g.setRobot(robot);
 
         JSONObject ids = gameDataWriter.saveGame(g);
 
