@@ -34,11 +34,8 @@ public class Game {
     private long playerId; // Adattare per il multi-player
     private String robot;
 
-    public Game(int playerId, String description, String name, String difficulty) {
-        this.playerId = playerId;
-        this.description = description;
-        this.name = name;
-        this.difficulty = difficulty;
+    public Game() {
+        
     }
 
     public long getId() {
