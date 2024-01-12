@@ -10,46 +10,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.g2.Model.ClassUT;
 import com.g2.Model.Game;
-import com.g2.Model.Player;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import com.g2.t5.MyData; //aggiunto
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @CrossOrigin
 @Controller
-public class GuiController {
+public class GUIController {
 
     // Player p1 = Player.getInstance();
-    // Game g = new Game();
     // long globalID;
-
     // String valueclass = "NULL";
     // String valuerobot = "NULL";
     // private Integer myClass = null;
@@ -57,15 +37,14 @@ public class GuiController {
     // private Map<Integer, String> hashMap = new HashMap<>();
     // private Map<Integer, String> hashMap2 = new HashMap<>();
     // private final FileController fileController;
-    
+
     private RestTemplate restTemplate;
 
+    private GameDataWriter gameDataWriter = new GameDataWriter();
     private Game g = new Game();
 
-    private GameDataWriter gameDataWriter = new GameDataWriter();
-
     @Autowired
-    public GuiController(RestTemplate restTemplate) {
+    public GUIController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -112,7 +91,7 @@ public class GuiController {
     }
 
     @GetMapping("/main")
-    public String GUIController(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
+    public String GuiController(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
         formData.add("jwt", jwt);
 
@@ -170,21 +149,6 @@ public class GuiController {
         return "main";
     }
 
-    @PostMapping("/sendGameVariables")
-    public ResponseEntity<String> receiveVariableClasse(@RequestParam("classe") String classe,
-            @RequestParam("robot") String robot, @RequestParam("difficulty") String difficulty) {
-        
-        System.out.println("Variabile ricevuta: " + classe);
-        System.out.println("Variabile ricevuta: " + robot);
-        System.out.println("Variabile ricevuta: " + difficulty);
-
-        g.setTestedClass(classe);
-        g.setRobot(robot);
-        g.setDifficulty(difficulty);
-
-        return ResponseEntity.ok("Dati ricevuti con successo");
-    }
-
     @GetMapping("/report")
     public String reportPage(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
@@ -205,42 +169,41 @@ public class GuiController {
         return "report";
     }
 
-    // @PostMapping("/login-variabiles")
-    // public ResponseEntity<String> receiveLoginData(@RequestParam("var1") String
-    // username,
-    // @RequestParam("var2") String password) {
+    // A3- T4
+    private String getCurrentDateTime() {
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd:MM:yyyy-HH:mm:ss");
+        String formattedDate = dateFormat.format(currentDate);
 
-    // System.out.println("username : " + username);
-    // System.out.println("password : " + password);
+        return formattedDate;
+    }
 
-    // p1.setUsername(username);
-    // p1.setPassword(password);
+    @PostMapping("/sendGameVariables")
+    public ResponseEntity<String> receiveGameVariables(@RequestParam("classe") String classe,
+            @RequestParam("robot") String robot, @RequestParam("difficulty") String difficulty) {
 
-    // // Salva i valori in una variabile o esegui altre operazioni necessarie
-    // if (com.g2.Interfaces.t2_3.verifyLogin(username, password)) {
-    // return ResponseEntity.ok("Dati ricevuti con successo");
-    // }
+        System.out.println("Classe ricevuta: " + classe);
+        System.out.println("Robot ricevuto: " + robot);
+        System.out.println("Difficoltà ricevuta: " + difficulty);
 
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Si è
-    // verificato un errore interno");
-    // }
+        g.setTestedClass(classe);
+        g.setRobot(robot);
+        g.setDifficulty(difficulty);
 
-    // MODIFICATA IN 2.0
+        g.setCreatedAt(getCurrentDateTime());
+
+        return ResponseEntity.ok("Dati ricevuti con successo");
+    }
+
     @PostMapping("/save-data")
-    public ResponseEntity<String> saveGame(@RequestParam("playerId") int playerId,
+    public ResponseEntity<String> saveGame(@RequestParam("playerId") long playerId,
             HttpServletRequest request) {
 
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
 
-        // Aggiungere orario alla data
-        /*
-         * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-         * LocalTime oraCorrente = LocalTime.now();
-         * String oraFormattata = oraCorrente.format(formatter);
-         */
         g.setPlayerId(playerId);
-        g.setCreatedAt(LocalDate.now());
+        g.setStartedAt(getCurrentDateTime());
 
         JSONObject ids = gameDataWriter.saveGame(g);
 
@@ -263,13 +226,16 @@ public class GuiController {
     }
 
     @PostMapping("/update-data")
-    public ResponseEntity<String> updateGame(@RequestParam("playerId") int playerId, @RequestParam("turnID") int turnID,
+    public ResponseEntity<String> updateGame(@RequestParam("playerId") long playerId,
+            @RequestParam("turnID") int turnID,
             HttpServletRequest request) {
 
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
 
-        // TO DO: aggiornamento in database
+        g.setUpdatedAt(getCurrentDateTime());
+
+        gameDataWriter.updateGame(g);
 
         boolean updated = gameDataWriter.updateGameCSV(g, turnID);
 
@@ -287,7 +253,25 @@ public class GuiController {
 
         return ResponseEntity.ok(nextTurn.toString());
     }
-    // FINE MODIFICHE DI 2.0
+    // A3-T4
+
+    @GetMapping("/editor")
+    public String editorPage(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
+        formData.add("jwt", jwt);
+
+        Boolean isAuthenticated = restTemplate.postForObject("http://t23-g1-app-1:8080/validateToken", formData,
+                Boolean.class);
+
+        if (isAuthenticated == null || !isAuthenticated)
+            return "redirect:/login";
+        // model.addAttribute("robot", valuerobot);
+        // model.addAttribute("classe", valueclass);
+
+        // model.addAttribute("gameIDj", globalID);
+
+        return "editor";
+    }
 
     // @PostMapping("/download")
     // public ResponseEntity<Resource> downloadFile(@RequestParam("elementId")
@@ -317,22 +301,24 @@ public class GuiController {
     // return "change_password";
     // }
 
-    @GetMapping("/editor")
-    public String editorPage(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
-        formData.add("jwt", jwt);
+    // @PostMapping("/login-variabiles")
+    // public ResponseEntity<String> receiveLoginData(@RequestParam("var1") String
+    // username,
+    // @RequestParam("var2") String password) {
 
-        Boolean isAuthenticated = restTemplate.postForObject("http://t23-g1-app-1:8080/validateToken", formData,
-                Boolean.class);
+    // System.out.println("username : " + username);
+    // System.out.println("password : " + password);
 
-        if (isAuthenticated == null || !isAuthenticated)
-            return "redirect:/login";
-        // model.addAttribute("robot", valuerobot);
-        // model.addAttribute("classe", valueclass);
+    // p1.setUsername(username);
+    // p1.setPassword(password);
 
-        // model.addAttribute("gameIDj", globalID);
+    // // Salva i valori in una variabile o esegui altre operazioni necessarie
+    // if (com.g2.Interfaces.t2_3.verifyLogin(username, password)) {
+    // return ResponseEntity.ok("Dati ricevuti con successo");
+    // }
 
-        return "editor";
-    }
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Si è
+    // verificato un errore interno");
+    // }
 
 }

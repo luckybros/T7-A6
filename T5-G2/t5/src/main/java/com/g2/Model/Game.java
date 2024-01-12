@@ -1,25 +1,5 @@
 package com.g2.Model;
 
-import java.time.*;
-
-/*
-GAME API T4
-type Game struct {
-	ID           int64      `json:"id"`
-    Name         string     `json:"name"`
-    Round        int        `json:"round"`
-    Class        string     `json:"class"`
-	Description  string     `json:"description"`
-	Difficulty   string     `json:"difficulty"`
-	CreatedAt    time.Time  `json:"createdAt"`
-	UpdatedAt    time.Time  `json:"updatedAt"`
-	StartedAt    *time.Time `json:"startedAt"`
-	ClosedAt     *time.Time `json:"closedAt"`
-	Players      []Player   `json:"players,omitempty"`
-    Robot        Robot      `json:"robot,omitempty"`
-}
-*/
-
 public class Game {
     private long id;
     private String name;
@@ -27,12 +7,12 @@ public class Game {
     private String testedClass;
     private String description;
     private String difficulty;
-    private LocalDate createdAt;
-    private LocalDate updateAt;
-    private LocalDate startedAt;
-    private LocalDate closedAt;
+    private String createdAt;
+    private String updatedAt;
+    private String startedAt;
+    private String closedAt;
     private long playerId; // Adattare per il multi-player
-    private String robot;
+    private String robot; // Adattare a long
 
     public Game() {
         
@@ -78,19 +58,19 @@ public class Game {
         this.difficulty = difficulty;
     }
 
-    public LocalDate getClosedAt() {
+    public String getClosedAt() {
         return closedAt;
     }
 
-    public void setClosedAt(LocalDate closedAt) {
+    public void setClosedAt(String closedAt) {
         this.closedAt = closedAt;
     }
 
-    public LocalDate getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -102,19 +82,19 @@ public class Game {
         this.round = round;
     }
 
-    public LocalDate getUpdateAt() {
-        return updateAt;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(LocalDate updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public LocalDate getStartedAt() {
+    public String getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(LocalDate startedAt) {
+    public void setStartedAt(String startedAt) {
         this.startedAt = startedAt;
     }
 

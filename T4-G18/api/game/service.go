@@ -19,10 +19,11 @@ func NewRepository(db *gorm.DB) *Repository {
 func (gs *Repository) Create(r *CreateRequest) (Game, error) {
 	var (
 		game = model.Game{
-			Name:      r.Name,
-			StartedAt: r.StartedAt,
-			ClosedAt:  r.ClosedAt,
-			Players:   make([]model.Player, len(r.Players)),
+			Class:      r.Class,
+			Difficulty: r.Difficulty,
+			StartedAt:  r.StartedAt,
+			//Robot:      r.Robot,
+			Players: make([]model.Player, len(r.Players)),
 		}
 	)
 	// detect duplication in player
