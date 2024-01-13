@@ -228,7 +228,7 @@ public class GUIController {
 
         g.setId(gameID);
         g.setRound(roundID);
-        
+
         boolean saved = gameDataWriter.saveGameCSV(g, turnID);
 
         if (!saved)
@@ -249,13 +249,10 @@ public class GUIController {
 
         boolean esito = false;
 
-        /*
-         * esito = gameDataWriter.updateGame(g, turnId);
-         * 
-         * if (!esito)
-         * return
-         * ResponseEntity.internalServerError().body("Data not updated in database");
-         */
+        esito = gameDataWriter.updateGame(g, turnId);
+
+        if (!esito)
+            return ResponseEntity.internalServerError().body("Data not updated in database");
 
         esito = gameDataWriter.updateGameCSV(g, turnId);
 
