@@ -1,21 +1,16 @@
 package com.g2.t5;
 
 import org.apache.commons.csv.*;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.apache.http.*;
+import org.apache.http.client.*;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.*;
+import org.apache.http.impl.client.*;
+import org.apache.http.util.*;
+import org.json.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 import com.g2.Model.Game;
 
@@ -26,33 +21,35 @@ public class GameDataWriter {
     private static String CSV_FILE_NAME = "/GameData.csv";
 
     /*
-    public long getGameId() {
-        long gameId = -1;
-
-        try {
-            Reader reader = new FileReader(CSV_FILE_PATH);
-            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
-
-            List<CSVRecord> records = csvParser.getRecords();
-
-            if (records.size() > 1) {
-                CSVRecord lastRecord = records.get(records.size() - 1);
-                gameId = Long.parseLong(lastRecord.get(0));
-            }
-
-            csvParser.close();
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Errore durante la lettura del file CSV");
-            e.printStackTrace();
-        }
-
-        return gameId;
-    }
-    */
+     * public long getGameId() {
+     * long gameId = -1;
+     * 
+     * try {
+     * Reader reader = new FileReader(CSV_FILE_PATH);
+     * CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+     * 
+     * List<CSVRecord> records = csvParser.getRecords();
+     * 
+     * if (records.size() > 1) {
+     * CSVRecord lastRecord = records.get(records.size() - 1);
+     * gameId = Long.parseLong(lastRecord.get(0));
+     * }
+     * 
+     * csvParser.close();
+     * reader.close();
+     * } catch (IOException e) {
+     * System.out.println("Errore durante la lettura del file CSV");
+     * e.printStackTrace();
+     * }
+     * 
+     * return gameId;
+     * }
+     */
 
     // MODIFICATA A3-T4
     public JSONObject saveGame(Game game) {
+        // TODO: modificare createRequest e POST in T4 aggiungendo nuovi campi
+
         try {
             JSONObject obj = new JSONObject();
 
@@ -130,15 +127,16 @@ public class GameDataWriter {
             }
 
             /*
-            responseEntity = httpResponse.getEntity();
-            responseBody = EntityUtils.toString(responseEntity);
-
-            JSONArray responseArrayObj = new JSONArray(responseBody);
-
-            Integer turnID = responseArrayObj.getJSONObject(0).getInt("id");
-            */
+             * responseEntity = httpResponse.getEntity();
+             * responseBody = EntityUtils.toString(responseEntity);
+             * 
+             * JSONArray responseArrayObj = new JSONArray(responseBody);
+             * 
+             * Integer turnID = responseArrayObj.getJSONObject(0).getInt("id");
+             */
 
             JSONObject resp = new JSONObject();
+
             resp.put("game_id", gameID);
             resp.put("round_id", roundID);
             resp.put("turn_id", 1);
@@ -150,8 +148,105 @@ public class GameDataWriter {
         }
     }
 
-    public void updateGame(Game game) {
-        // TODO: implementare aggiornamento di game, round e turn in DB
+    public boolean updateGame(Game game, int turnId) {
+        // TODO: modificare updateRequest e PUT in T4 aggiungendo nuovi campi
+
+        try {
+            JSONObject obj = new JSONObject();
+
+            obj.put("gameId", game.getId());
+            obj.put("updatedAt", game.getUpdatedAt());
+
+            HttpPut httpPut = new HttpPut("http://t4-g18-app-1:3000/games");
+
+            StringEntity jsonEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
+
+            httpPut.setEntity(jsonEntity);
+
+            httpPut.setHeader("Content-type", "application/json");
+
+            HttpResponse httpResponse = httpClient.execute(httpPut);
+
+            int statusCode = httpResponse.getStatusLine().getStatusCode();
+
+            if (statusCode > 299) {
+                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
+                return false;
+            }
+
+            JSONObject round = new JSONObject();
+
+            round.put("id", game.getRound());
+            round.put("gameId", game.getId());
+            round.put("updatedAt", game.getUpdatedAt());
+
+            httpPut = new HttpPut("http://t4-g18-app-1:3000/rounds");
+
+            jsonEntity = new StringEntity(round.toString(), ContentType.APPLICATION_JSON);
+
+            httpPut.setEntity(jsonEntity);
+
+            httpPut.setHeader("Content-type", "application/json");
+
+            httpResponse = httpClient.execute(httpPut);
+
+            statusCode = httpResponse.getStatusLine().getStatusCode();
+
+            if (statusCode > 299) {
+                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
+                return false;
+            }
+
+            JSONObject turn = new JSONObject();
+
+            turn.put("roundId", game.getRound());
+            turn.put("id", turnId);
+            turn.put("updatedAt", game.getUpdatedAt());
+
+            httpPut = new HttpPut("http://t4-g18-app-1:3000/turns");
+
+            jsonEntity = new StringEntity(turn.toString(), ContentType.APPLICATION_JSON);
+
+            httpPut.setEntity(jsonEntity);
+
+            httpPut.setHeader("Content-type", "application/json");
+
+            httpResponse = httpClient.execute(httpPut);
+
+            statusCode = httpResponse.getStatusLine().getStatusCode();
+
+            if (statusCode > 299) {
+                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
+                return false;
+            }
+
+            JSONObject newTurn = new JSONObject();
+
+            newTurn.put("roundId", game.getRound());
+            newTurn.put("id", turnId + 1);
+            turn.put("startedAt", game.getUpdatedAt());
+            turn.put("players", game.getPlayerId());
+
+            HttpPost httpPost = new HttpPost("http://t4-g18-app-1:3000/turns");
+
+            jsonEntity = new StringEntity(newTurn.toString(), ContentType.APPLICATION_JSON);
+
+            httpPost.setEntity(jsonEntity);
+
+            httpResponse = httpClient.execute(httpPost);
+
+            statusCode = httpResponse.getStatusLine().getStatusCode();
+
+            if (statusCode > 299) {
+                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
+                return false;
+            }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean saveGameCSV(Game game, int tid) {
@@ -163,12 +258,13 @@ public class GameDataWriter {
         String gameID = "Game" + gid;
         String roundID = "Round" + rid;
         String turnID = "Turn" + tid;
-        
-        // Al path bisogna aggiungere PlayerID/GameID/RoundID/TurnID e poi il nome del file
+
+        // Al path bisogna aggiungere PlayerID/GameID/RoundID/TurnID e poi il nome del
+        // file
         String fileName = CSV_FILE_PATH + playerID + "/" + gameID + "/" + roundID + "/" + turnID + CSV_FILE_NAME;
 
         Path path = Paths.get(fileName);
- 
+
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path.getParent());
@@ -202,23 +298,21 @@ public class GameDataWriter {
                     "StartedAt",
                     "ClosedAt",
                     "PlayerID",
-                    "Robot"
-                );
+                    "Robot");
 
             csvPrinter.printRecord(
-                game.getId(),
-                game.getName(),
-                game.getRound(),
-                game.getTestedClass(),
-                game.getDescription(),
-                game.getDifficulty(),
-                game.getCreatedAt(),
-                game.getUpdatedAt(),
-                game.getStartedAt(),
-                game.getClosedAt(),
-                game.getPlayerId(),
-                game.getRobot()      
-            );
+                    game.getId(),
+                    game.getName(),
+                    game.getRound(),
+                    game.getTestedClass(),
+                    game.getDescription(),
+                    game.getDifficulty(),
+                    game.getCreatedAt(),
+                    game.getUpdatedAt(),
+                    game.getStartedAt(),
+                    game.getClosedAt(),
+                    game.getPlayerId(),
+                    game.getRobot());
 
             csvPrinter.flush();
             csvPrinter.close();
@@ -245,7 +339,7 @@ public class GameDataWriter {
         String fileName = CSV_FILE_PATH + playerID + "/" + gameID + "/" + roundID + "/" + turnID + CSV_FILE_NAME;
 
         Path path = Paths.get(fileName);
- 
+
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path.getParent());
@@ -275,23 +369,21 @@ public class GameDataWriter {
                     "StartedAt",
                     "ClosedAt",
                     "PlayerID",
-                    "Robot"
-                );
+                    "Robot");
 
             csvPrinter.printRecord(
-                game.getId(),
-                game.getName(),
-                game.getRound(),
-                game.getTestedClass(),
-                game.getDescription(),
-                game.getDifficulty(),
-                game.getCreatedAt(),
-                game.getUpdatedAt(),
-                game.getStartedAt(),
-                game.getClosedAt(),
-                game.getPlayerId(),
-                game.getRobot()      
-            );
+                    game.getId(),
+                    game.getName(),
+                    game.getRound(),
+                    game.getTestedClass(),
+                    game.getDescription(),
+                    game.getDifficulty(),
+                    game.getCreatedAt(),
+                    game.getUpdatedAt(),
+                    game.getStartedAt(),
+                    game.getClosedAt(),
+                    game.getPlayerId(),
+                    game.getRobot());
 
             csvPrinter.flush();
             csvPrinter.close();

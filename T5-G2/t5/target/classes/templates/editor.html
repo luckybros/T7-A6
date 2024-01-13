@@ -822,7 +822,7 @@ public class TestClasse {
                     url:'http://localhost/api/update-data',
                     data: {
                       playerId: parseJwt(getCookie("jwt")).userId,
-                      turnID: localStorage.getItem("turnId")
+                      turnId: localStorage.getItem("turnId")
                     },
                     type:'POST',
                     success: function (response) {

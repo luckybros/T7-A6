@@ -14,10 +14,6 @@ public class Game {
     private long playerId; // Adattare per il multi-player
     private String robot; // Adattare a long
 
-    public Game() {
-        
-    }
-
     public long getId() {
         return id;
     }
@@ -34,12 +30,20 @@ public class Game {
         this.name = name;
     }
 
-    public long getPlayerId() {
-        return playerId;
+    public int getRound() {
+        return round;
     }
 
-    public void setPlayerId(long playerId) {
-        this.playerId = playerId;
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public String getTestedClass() {
+        return testedClass;
+    }
+
+    public void setTestedClass(String testedClass) {
+        this.testedClass = testedClass;
     }
 
     public String getDescription() {
@@ -58,28 +62,12 @@ public class Game {
         this.difficulty = difficulty;
     }
 
-    public String getClosedAt() {
-        return closedAt;
-    }
-
-    public void setClosedAt(String closedAt) {
-        this.closedAt = closedAt;
-    }
-
     public String getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public int getRound() {
-        return round;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
     }
 
     public String getUpdatedAt() {
@@ -98,19 +86,27 @@ public class Game {
         this.startedAt = startedAt;
     }
 
+    public String getClosedAt() {
+        return closedAt;
+    }
+
+    public void setClosedAt(String closedAt) {
+        this.closedAt = closedAt;
+    }
+
+    public long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(long playerId) {
+        this.playerId = playerId;
+    }
+
     public String getRobot() {
         return robot;
     }
 
     public void setRobot(String robot) {
         this.robot = robot;
-    }
-
-    public String getTestedClass() {
-        return testedClass;
-    }
-
-    public void setTestedClass(String testedClass) {
-        this.testedClass = testedClass;
     }
 }

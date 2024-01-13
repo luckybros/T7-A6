@@ -41,6 +41,7 @@ type CreateRequest struct {
 	Players    []string `json:"players"`
 	Class      string   `json:"class"`
 	Difficulty string   `json:"difficulty"`
+	Name       string   `json:"name"`
 	// Robot      int64      `json:"robot"`
 	StartedAt *time.Time `json:"startedAt,omitempty"`
 }

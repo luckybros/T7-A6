@@ -27,6 +27,10 @@ import java.util.*;
 @CrossOrigin
 @Controller
 public class GUIController {
+    private RestTemplate restTemplate;
+
+    private GameDataWriter gameDataWriter = new GameDataWriter();
+    private Game g = new Game();
 
     // Player p1 = Player.getInstance();
     // long globalID;
@@ -38,20 +42,10 @@ public class GUIController {
     // private Map<Integer, String> hashMap2 = new HashMap<>();
     // private final FileController fileController;
 
-    private RestTemplate restTemplate;
-
-    private GameDataWriter gameDataWriter = new GameDataWriter();
-    private Game g = new Game();
-
     @Autowired
     public GUIController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
-    // @GetMapping("/login")
-    // public String loginPage() {
-    // return "login"; // Nome del template Thymeleaf per la pagina1.html
-    // }
 
     public List<String> getLevels(String className) {
         List<String> result = new ArrayList<String>();
@@ -91,7 +85,7 @@ public class GUIController {
     }
 
     @GetMapping("/main")
-    public String GuiController(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
+    public String initMain(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
         formData.add("jwt", jwt);
 
@@ -169,6 +163,24 @@ public class GUIController {
         return "report";
     }
 
+    @GetMapping("/editor")
+    public String editorPage(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
+        formData.add("jwt", jwt);
+
+        Boolean isAuthenticated = restTemplate.postForObject("http://t23-g1-app-1:8080/validateToken", formData,
+                Boolean.class);
+
+        if (isAuthenticated == null || !isAuthenticated)
+            return "redirect:/login";
+        // model.addAttribute("robot", valuerobot);
+        // model.addAttribute("classe", valueclass);
+
+        // model.addAttribute("gameIDj", globalID);
+
+        return "editor";
+    }
+
     // A3- T4
     private String getCurrentDateTime() {
         Date currentDate = new Date();
@@ -216,7 +228,7 @@ public class GUIController {
 
         g.setId(gameID);
         g.setRound(roundID);
-
+        
         boolean saved = gameDataWriter.saveGameCSV(g, turnID);
 
         if (!saved)
@@ -227,7 +239,7 @@ public class GUIController {
 
     @PostMapping("/update-data")
     public ResponseEntity<String> updateGame(@RequestParam("playerId") long playerId,
-            @RequestParam("turnID") int turnID,
+            @RequestParam("turnId") int turnId,
             HttpServletRequest request) {
 
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
@@ -235,43 +247,40 @@ public class GUIController {
 
         g.setUpdatedAt(getCurrentDateTime());
 
-        gameDataWriter.updateGame(g);
+        boolean esito = false;
 
-        boolean updated = gameDataWriter.updateGameCSV(g, turnID);
+        /*
+         * esito = gameDataWriter.updateGame(g, turnId);
+         * 
+         * if (!esito)
+         * return
+         * ResponseEntity.internalServerError().body("Data not updated in database");
+         */
 
-        if (!updated)
+        esito = gameDataWriter.updateGameCSV(g, turnId);
+
+        if (!esito)
             return ResponseEntity.internalServerError().body("Game not updated in filesystem");
 
-        boolean newTurnCreated = gameDataWriter.createNextTurnCSV(g, turnID);
+        esito = gameDataWriter.createNextTurnCSV(g, turnId);
 
-        if (!newTurnCreated)
+        if (!esito)
             return ResponseEntity.internalServerError().body("New turn not created in filesystem");
 
         JSONObject nextTurn = new JSONObject();
 
-        nextTurn.put("turnId", turnID + 1);
+        nextTurn.put("turn_id", turnId + 1);
 
         return ResponseEntity.ok(nextTurn.toString());
     }
     // A3-T4
 
-    @GetMapping("/editor")
-    public String editorPage(Model model, @CookieValue(name = "jwt", required = false) String jwt) {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
-        formData.add("jwt", jwt);
+    // CODICE GIÀ COMMENTATO PRIMA DELLE NOSTRE MODIFICHE
 
-        Boolean isAuthenticated = restTemplate.postForObject("http://t23-g1-app-1:8080/validateToken", formData,
-                Boolean.class);
-
-        if (isAuthenticated == null || !isAuthenticated)
-            return "redirect:/login";
-        // model.addAttribute("robot", valuerobot);
-        // model.addAttribute("classe", valueclass);
-
-        // model.addAttribute("gameIDj", globalID);
-
-        return "editor";
-    }
+    // @GetMapping("/login")
+    // public String loginPage() {
+    // return "login"; // Nome del template Thymeleaf per la pagina1.html
+    // }
 
     // @PostMapping("/download")
     // public ResponseEntity<Resource> downloadFile(@RequestParam("elementId")
