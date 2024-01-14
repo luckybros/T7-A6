@@ -83,7 +83,7 @@ func (Round) TableName() string {
 }
 
 type Turn struct {
-	ID        int64      `gorm:"primaryKey;autoIncrement"`
+	ID        int64      `gorm:"primaryKey"`
 	CreatedAt time.Time  `gorm:"autoCreateTime"`
 	UpdatedAt time.Time  `gorm:"autoUpdateTime"`
 	StartedAt *time.Time `gorm:"default:null"`
@@ -92,7 +92,7 @@ type Turn struct {
 	Scores    string     `gorm:"default:null"`
 	IsWinner  bool       `gorm:"default:false"`
 	PlayerID  int64      `gorm:"index:idx_playerturn,unique;not null"`
-	RoundID   int64      `gorm:"index:idx_playerturn,unique;not null"`
+	RoundID   int64      `gorm:"primaryKey,index:idx_playerturn"`
 }
 
 func (Turn) TableName() string {
