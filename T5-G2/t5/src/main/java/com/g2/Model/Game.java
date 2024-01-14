@@ -1,25 +1,5 @@
 package com.g2.Model;
 
-import java.time.*;
-
-/*
-GAME API T4
-type Game struct {
-	ID           int64      `json:"id"`
-    Name         string     `json:"name"`
-    Round        int        `json:"round"` // VALE
-    Class        string     `json:"class"`
-	Description  string     `json:"description"`
-	Difficulty   string     `json:"difficulty"`
-	CreatedAt    time.Time  `json:"createdAt"`
-	UpdatedAt    time.Time  `json:"updatedAt"`
-	StartedAt    *time.Time `json:"startedAt"`
-	ClosedAt     *time.Time `json:"closedAt"`
-	Players      []Player   `json:"players,omitempty"`
-    Robot        Robot      `json:"robot,omitempty"`
-}
-*/
-
 public class Game {
     private long id;
     private String name;
@@ -27,19 +7,12 @@ public class Game {
     private String testedClass;
     private String description;
     private String difficulty;
-    private LocalDate createdAt;
-    private LocalDate updateAt;
-    private LocalDate startedAt;
-    private LocalDate closedAt;
+    private String createdAt;
+    private String updatedAt;
+    private String startedAt;
+    private String closedAt;
     private long playerId; // Adattare per il multi-player
-    private String robot;
-
-    public Game(int playerId, String description, String name, String difficulty) {
-        this.playerId = playerId;
-        this.description = description;
-        this.name = name;
-        this.difficulty = difficulty;
-    }
+    private String robot; // Adattare a long
 
     public long getId() {
         return id;
@@ -57,12 +30,20 @@ public class Game {
         this.name = name;
     }
 
-    public long getPlayerId() {
-        return playerId;
+    public int getRound() {
+        return round;
     }
 
-    public void setPlayerId(long playerId) {
-        this.playerId = playerId;
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public String getTestedClass() {
+        return testedClass;
+    }
+
+    public void setTestedClass(String testedClass) {
+        this.testedClass = testedClass;
     }
 
     public String getDescription() {
@@ -81,44 +62,44 @@ public class Game {
         this.difficulty = difficulty;
     }
 
-    public LocalDate getClosedAt() {
-        return closedAt;
-    }
-
-    public void setClosedAt(LocalDate closedAt) {
-        this.closedAt = closedAt;
-    }
-
-    public LocalDate getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public int getRound() {
-        return round;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setRound(int round) {
-        this.round = round;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public LocalDate getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(LocalDate updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    public LocalDate getStartedAt() {
+    public String getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(LocalDate startedAt) {
+    public void setStartedAt(String startedAt) {
         this.startedAt = startedAt;
+    }
+
+    public String getClosedAt() {
+        return closedAt;
+    }
+
+    public void setClosedAt(String closedAt) {
+        this.closedAt = closedAt;
+    }
+
+    public long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(long playerId) {
+        this.playerId = playerId;
     }
 
     public String getRobot() {
@@ -127,13 +108,5 @@ public class Game {
 
     public void setRobot(String robot) {
         this.robot = robot;
-    }
-
-    public String getTestedClass() {
-        return testedClass;
-    }
-
-    public void setTestedClass(String testedClass) {
-        this.testedClass = testedClass;
     }
 }

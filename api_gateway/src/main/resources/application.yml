@@ -30,6 +30,10 @@ zuul:
       sensitiveHeaders:
       path: /api/save-data/**
       url: http://t5-app-1:8080/save-data
+    sendGameVariables-service:
+      sensitiveHeaders:
+      path: /api/sendGameVariables/**
+      url: http://t5-app-1:8080/sendGameVariables
     updateData-service:
       sensitiveHeaders:
       path: /api/update-data/**

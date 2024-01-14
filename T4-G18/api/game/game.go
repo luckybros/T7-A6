@@ -10,7 +10,7 @@ import (
 type Game struct {
 	ID          int64      `json:"id"`
 	Name        string     `json:"name"`
-	Round       int        `json:"round"` 
+	Round       int        `json:"round"`
 	Class       string     `json:"class"`
 	Description string     `json:"description"`
 	Difficulty  string     `json:"difficulty"`
@@ -38,12 +38,12 @@ type Robot struct {
 }
 
 type CreateRequest struct {
-	Name        string     `json:"name"`
-	Players     []string   `json:"players"`
-	Description string     `json:"description"`
-	Difficulty  string     `json:"difficulty"`
-	StartedAt   *time.Time `json:"startedAt,omitempty"`
-	ClosedAt    *time.Time `json:"closedAt,omitempty"`
+	Players    []string `json:"players"`
+	Class      string   `json:"class"`
+	Difficulty string   `json:"difficulty"`
+	Name       string   `json:"name"`
+	// Robot      int64      `json:"robot"`
+	StartedAt *time.Time `json:"startedAt,omitempty"`
 }
 
 func (CreateRequest) Validate() error {
