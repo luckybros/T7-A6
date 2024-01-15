@@ -55,7 +55,7 @@ public class GameDataWriter {
 
             obj.put("class", game.getTestedClass());
             obj.put("difficulty", game.getDifficulty());
-            obj.put("startedAt", game.getStartedAt());
+            obj.put("name", game.getName());
 
             JSONArray playersArray = new JSONArray();
             playersArray.put(String.valueOf(game.getPlayerId()));
@@ -84,7 +84,6 @@ public class GameDataWriter {
             JSONObject round = new JSONObject();
             round.put("gameId", gameID);
             round.put("testClassId", game.getTestedClass());
-            round.put("startedAt", game.getStartedAt());
 
             httpPost = new HttpPost("http://t4-g18-app-1:3000/rounds");
             jsonEntity = new StringEntity(round.toString(), ContentType.APPLICATION_JSON);
@@ -110,7 +109,6 @@ public class GameDataWriter {
 
             turn.put("players", playersArray);
             turn.put("roundId", roundID);
-            turn.put("startedAt", game.getStartedAt());
             turn.put("id", 1);
 
             httpPost = new HttpPost("http://t4-g18-app-1:3000/turns");
@@ -152,90 +150,25 @@ public class GameDataWriter {
         // TODO: modificare updateRequest e PUT in T4 aggiungendo nuovi campi
 
         try {
-            JSONObject obj = new JSONObject();
-
-            obj.put("gameId", game.getId());
-            obj.put("updatedAt", game.getUpdatedAt());
-
-            HttpPut httpPut = new HttpPut("http://t4-g18-app-1:3000/games");
-
-            StringEntity jsonEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
-
-            httpPut.setEntity(jsonEntity);
-
-            httpPut.setHeader("Content-type", "application/json");
-
-            HttpResponse httpResponse = httpClient.execute(httpPut);
-
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-
-            if (statusCode > 299) {
-                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
-                return false;
-            }
-
-            JSONObject round = new JSONObject();
-
-            round.put("id", game.getRound());
-            round.put("gameId", game.getId());
-            round.put("updatedAt", game.getUpdatedAt());
-
-            httpPut = new HttpPut("http://t4-g18-app-1:3000/rounds");
-
-            jsonEntity = new StringEntity(round.toString(), ContentType.APPLICATION_JSON);
-
-            httpPut.setEntity(jsonEntity);
-
-            httpPut.setHeader("Content-type", "application/json");
-
-            httpResponse = httpClient.execute(httpPut);
-
-            statusCode = httpResponse.getStatusLine().getStatusCode();
-
-            if (statusCode > 299) {
-                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
-                return false;
-            }
-
-            JSONObject turn = new JSONObject();
-
-            turn.put("roundId", game.getRound());
-            turn.put("id", turnId);
-            turn.put("updatedAt", game.getUpdatedAt());
-
-            httpPut = new HttpPut("http://t4-g18-app-1:3000/turns");
-
-            jsonEntity = new StringEntity(turn.toString(), ContentType.APPLICATION_JSON);
-
-            httpPut.setEntity(jsonEntity);
-
-            httpPut.setHeader("Content-type", "application/json");
-
-            httpResponse = httpClient.execute(httpPut);
-
-            statusCode = httpResponse.getStatusLine().getStatusCode();
-
-            if (statusCode > 299) {
-                System.err.println(EntityUtils.toString(httpResponse.getEntity()));
-                return false;
-            }
-
             JSONObject newTurn = new JSONObject();
+
+            JSONArray playersArray = new JSONArray();
+
+            playersArray.put(String.valueOf(game.getPlayerId()));
 
             newTurn.put("roundId", game.getRound());
             newTurn.put("id", turnId + 1);
-            turn.put("startedAt", game.getUpdatedAt());
-            turn.put("players", game.getPlayerId());
+            newTurn.put("players", playersArray);
 
             HttpPost httpPost = new HttpPost("http://t4-g18-app-1:3000/turns");
 
-            jsonEntity = new StringEntity(newTurn.toString(), ContentType.APPLICATION_JSON);
+            StringEntity jsonEntity = new StringEntity(newTurn.toString(), ContentType.APPLICATION_JSON);
 
             httpPost.setEntity(jsonEntity);
 
-            httpResponse = httpClient.execute(httpPost);
+            HttpResponse httpResponse = httpClient.execute(httpPost);
 
-            statusCode = httpResponse.getStatusLine().getStatusCode();
+            int statusCode = httpResponse.getStatusLine().getStatusCode();
 
             if (statusCode > 299) {
                 System.err.println(EntityUtils.toString(httpResponse.getEntity()));

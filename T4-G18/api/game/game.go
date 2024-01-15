@@ -98,7 +98,7 @@ func fromModel(g *model.Game) Game {
 	return Game{
 		ID:          g.ID,
 		Name:        g.Name,
-		Round:       g.Round, // GRUPPO A3
+		Round:       g.Round,
 		Class:       g.Class,
 		Description: g.Description.String,
 		Difficulty:  g.Difficulty,

@@ -26,7 +26,7 @@ import java.util.*;
 
 @CrossOrigin
 @Controller
-public class GUIController {
+public class GuiController {
     private RestTemplate restTemplate;
 
     private GameDataWriter gameDataWriter = new GameDataWriter();
@@ -43,7 +43,7 @@ public class GUIController {
     // private final FileController fileController;
 
     @Autowired
-    public GUIController(RestTemplate restTemplate) {
+    public GuiController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -201,6 +201,7 @@ public class GUIController {
         g.setTestedClass(classe);
         g.setRobot(robot);
         g.setDifficulty(difficulty);
+        g.setName("nome");
 
         g.setCreatedAt(getCurrentDateTime());
 

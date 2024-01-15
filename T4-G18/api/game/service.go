@@ -22,6 +22,7 @@ func (gs *Repository) Create(r *CreateRequest) (Game, error) {
 			Class:      r.Class,
 			Difficulty: r.Difficulty,
 			StartedAt:  r.StartedAt,
+			Name:       r.Name,
 			//Robot:      r.Robot,
 			Players: make([]model.Player, len(r.Players)),
 		}

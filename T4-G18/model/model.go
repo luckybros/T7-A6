@@ -84,15 +84,15 @@ func (Round) TableName() string {
 
 type Turn struct {
 	ID        int64      `gorm:"primaryKey"`
+	RoundID   int64      `gorm:"primaryKey"`
 	CreatedAt time.Time  `gorm:"autoCreateTime"`
 	UpdatedAt time.Time  `gorm:"autoUpdateTime"`
 	StartedAt *time.Time `gorm:"default:null"`
 	ClosedAt  *time.Time `gorm:"default:null"`
-	Metadata  Metadata   `gorm:"foreignKey:TurnID;constraint:OnDelete:SET NULL;"`
+	Metadata  Metadata   `gorm:"foreignKey:TurnID,RoundID;references:ID,RoundID;constraint:OnDelete:SET NULL;"`
 	Scores    string     `gorm:"default:null"`
 	IsWinner  bool       `gorm:"default:false"`
-	PlayerID  int64      `gorm:"index:idx_playerturn,unique;not null"`
-	RoundID   int64      `gorm:"primaryKey,index:idx_playerturn"`
+	PlayerID  int64      `gorm:"index:idx_playerturn;not null"`
 }
 
 func (Turn) TableName() string {
@@ -103,7 +103,8 @@ type Metadata struct {
 	ID        int64         `gorm:"primaryKey;autoIncrement"`
 	CreatedAt time.Time     `gorm:"autoCreateTime"`
 	UpdatedAt time.Time     `gorm:"autoUpdateTime"`
-	TurnID    sql.NullInt64 `gorm:"unique"`
+	TurnID    sql.NullInt64 `gorm:"unique;not null"`
+	RoundID   sql.NullInt64 `gorm:"unique;not null"`
 	Path      string        `gorm:"unique;not null"`
 }
 
