@@ -231,7 +231,7 @@ function redirectToLogin () {
 }
 
 function saveLoginData () {
-  var username = document.getElementById('username').value
+  var username = document.getElementById('usernameField').value
 
   localStorage.setItem('username', username)
 }

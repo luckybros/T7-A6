@@ -136,6 +136,7 @@ func run(ctx context.Context, c Configuration) error {
 	if err != nil {
 		return err
 	}
+
 	if err := db.SetupJoinTable(&model.Game{}, "Players", &model.PlayerGame{}); err != nil {
 		return err
 	}
