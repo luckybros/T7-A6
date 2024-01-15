@@ -4,6 +4,13 @@ Componenti:
 - Nike Di Giacomo - M63001641
 - Alessandro Falino - M63001658
 
+## Requisito R2
+Il lavoro da noi svolto si colloca all'interno del progetto ENACTEST, che ha come obiettivo la creazione e lo sviluppo di un gioco con lo scopo di promuovere l'attività di testing e permettere ai partecipanti di cimentarsi in sfide contro sistemi automatizzati ed eventualmente altri giocatori.
+Per portare a termine i nostri compiti siamo partiti dai risultati raggiunti dai gruppi A1-A8, in particolare dal loro repository GitHub consultabile al seguente link: https://github.com/exo404/A1-A8-2024.
+Il requisito assegnato al nostro Team durante il corso di Software Architecture Design 2023/2024 è il seguente:
+_Verificare e gestire la coerenza dei dati della partita del giocatore attualmente salvati nel File System di T8 con quelli mantenuti nel database del gioco in T4.
+Eventualmente rivedere le API offerte da T4 per consentire di salvare anche i dati relativi ai Turni di gioco in T4._
+
 # GUIDA ALL'INSTALLAZIONE
 
 ## PASSO 1
