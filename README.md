@@ -4,6 +4,11 @@ Componenti:
 - Nike Di Giacomo - M63001641
 - Alessandro Falino - M63001658
 
+## Requisito R2
+Il requisito assegnato al nostro Team durante il corso di Software Architecture Design 2023/2024 è il seguente:
+_Verificare e gestire la coerenza dei dati della partita del giocatore attualmente salvati nel File System di T8 con quelli mantenuti nel database del gioco in T4.
+Eventualmente rivedere le API offerte da T4 per consentire di salvare anche i dati relativi ai Turni di gioco in T4._
+
 # GUIDA ALL'INSTALLAZIONE
 
 ## PASSO 1
