@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(GUIController.class)
+@WebMvcTest(GuiController.class)
 public class GuiControllerTest {
 
     @Autowired
