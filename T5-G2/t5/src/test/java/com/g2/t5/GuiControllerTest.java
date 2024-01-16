@@ -23,11 +23,10 @@ import com.g2.Model.Game;
 @RunWith(SpringRunner.class)
 @WebMvcTest(GuiController.class)
 public class GuiControllerTest {
+    private Game game;
+    
     @MockBean
     private GameDataWriter gameDataWriter;
-
-    @MockBean
-    private Game game;
 
     @MockBean
     private RestTemplate restTemplate;
