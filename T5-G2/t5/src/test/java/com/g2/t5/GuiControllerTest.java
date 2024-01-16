@@ -41,69 +41,104 @@ public class GuiControllerTest {
     }
 
     @Test
+    public void testReceiveGameVariables() throws Exception {
+        RestAssuredMockMvc
+        .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(new JSONObject()
+                .put("classe", "range")
+                .put("robot", "randoop")
+                .put("difficulty", "1")
+                .toString())
+        .when()
+            .post("/api/sendGameVariables")
+        .then()
+            .statusCode(200);
+    }
+
+    @Test
     public void testSaveGameNotNull() throws Exception {
         Mockito.when(gameDataWriter.saveGame(game)).thenReturn(new JSONObject()
-        .put("game_id", 1)
-        .put("round_id", 1)
-        .put("turn_id", 1)
-        );
+                .put("game_id", 1)
+                .put("round_id", 1)
+                .put("turn_id", 1));
 
         Mockito.when(gameDataWriter.saveGameCSV(game, 1)).thenReturn(true);
 
         RestAssuredMockMvc
-        .given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .header("X-UserID", "1")
-            .body(new JSONObject().put("playerId", 1).toString())
-        .when()
-            .post("/api/save-data")
-        .then()
-            .statusCode(200)
-            .body("game_id", notNullValue())
-            .body("round_id", notNullValue())
-            .body("turn_id", notNullValue());
+            .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("X-UserID", "1")
+                .body(new JSONObject().put("playerId", 1).toString())
+            .when()
+                .post("/api/save-data")
+            .then()
+                .statusCode(200)
+                .body("game_id", notNullValue())
+                .body("round_id", notNullValue())
+                .body("turn_id", notNullValue());
     }
 
     @Test
     public void testSaveGameEqualValues() throws Exception {
         Mockito.when(gameDataWriter.saveGame(game)).thenReturn(new JSONObject()
-        .put("game_id", 1)
-        .put("round_id", 1)
-        .put("turn_id", 1)
-        );
+                .put("game_id", 1)
+                .put("round_id", 1)
+                .put("turn_id", 1));
 
         Mockito.when(gameDataWriter.saveGameCSV(game, 1)).thenReturn(true);
 
         RestAssuredMockMvc
-        .given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .header("X-UserID", "1")
-            .body(new JSONObject().put("playerId", 1).toString())
-        .when()
-            .post("/api/save-data")
-        .then()
-            .statusCode(200)
-            .body("game_id", Matchers.equalTo(1))
-            .body("round_id", Matchers.equalTo(1))
-            .body("turn_id", Matchers.equalTo(1));
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("X-UserID", "1")
+                .body(new JSONObject().put("playerId", 1).toString())
+                .when()
+                .post("/api/save-data")
+                .then()
+                .statusCode(200)
+                .body("game_id", Matchers.equalTo(1))
+                .body("round_id", Matchers.equalTo(1))
+                .body("turn_id", Matchers.equalTo(1));
+    }
+
+    @Test
+    public void testUpdateGameNotNull() throws Exception {
+        Mockito.when(gameDataWriter.updateGame(game, 1)).thenReturn(true);
+
+        Mockito.when(gameDataWriter.updateGameCSV(game, 1)).thenReturn(true);
+
+        Mockito.when(gameDataWriter.createNextTurnCSV(game, 1)).thenReturn(true);
+
+        RestAssuredMockMvc
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("X-UserID", "1")
+                .body(new JSONObject().put("playerId", 1).toString())
+                .when()
+                .post("/api/update-data")
+                .then()
+                .statusCode(200)
+                .body("turn_id", notNullValue());
+    }
+
+    @Test
+    public void testUpdateGameEqualValues() throws Exception {
+        Mockito.when(gameDataWriter.updateGame(game, 1)).thenReturn(true);
+
+        Mockito.when(gameDataWriter.updateGameCSV(game, 1)).thenReturn(true);
+
+        Mockito.when(gameDataWriter.createNextTurnCSV(game, 1)).thenReturn(true);
+
+        RestAssuredMockMvc
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("X-UserID", "1")
+                .body(new JSONObject().put("playerId", 1).toString())
+                .when()
+                .post("/api/update-data")
+                .then()
+                .statusCode(200)
+                .body("turn_id", Matchers.equalTo(2));
     }
 }
-
-/*
- * // Definisci il corpo della tua richiesta JSON
- * String requestBody = "{ \"playerId\": 1 }"; // Sostituisci con i valori
- * appropriati
- * 
- * // Esegui la richiesta HTTP POST simulata
- * RestAssuredMockMvc.given()
- * .contentType(MediaType.APPLICATION_JSON_VALUE)
- * .header("X-UserID", "1") // Sostituisci con il valore appropriato
- * .body(requestBody)
- * .when()
- * .post("/api/save-data")
- * .then()
- * .statusCode(200)
- * .body("game_id", notNullValue())
- * .body("round_id", notNullValue())
- * .body("turn_id", notNullValue());
- */
