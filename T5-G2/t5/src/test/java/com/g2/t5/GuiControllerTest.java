@@ -48,6 +48,8 @@ public class GuiControllerTest {
         .put("turn_id", 1)
         );
 
+        Mockito.when(gameDataWriter.saveGameCSV(game, 1)).thenReturn(true);
+
         RestAssuredMockMvc
         .given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -69,6 +71,8 @@ public class GuiControllerTest {
         .put("round_id", 1)
         .put("turn_id", 1)
         );
+
+        Mockito.when(gameDataWriter.saveGameCSV(game, 1)).thenReturn(true);
 
         RestAssuredMockMvc
         .given()
