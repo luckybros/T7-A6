@@ -24,7 +24,7 @@ import com.g2.Model.Game;
 @WebMvcTest(GuiController.class)
 public class GuiControllerTest {
     private Game game;
-    
+
     @MockBean
     private GameDataWriter gameDataWriter;
 
@@ -42,17 +42,17 @@ public class GuiControllerTest {
     @Test
     public void testReceiveGameVariables() throws Exception {
         RestAssuredMockMvc
-        .given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(new JSONObject()
-                .put("classe", "range")
-                .put("robot", "randoop")
-                .put("difficulty", "1")
-                .toString())
-        .when()
-            .post("/api/sendGameVariables")
-        .then()
-            .statusCode(200);
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new JSONObject()
+                        .put("classe", "range")
+                        .put("robot", "randoop")
+                        .put("difficulty", "1")
+                        .toString())
+                .when()
+                .post("/api/sendGameVariables")
+                .then()
+                .statusCode(200);
     }
 
     @Test
@@ -65,13 +65,13 @@ public class GuiControllerTest {
         Mockito.when(gameDataWriter.saveGameCSV(game, 1)).thenReturn(true);
 
         RestAssuredMockMvc
-            .given()
+                .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("X-UserID", "1")
                 .body(new JSONObject().put("playerId", 1).toString())
-            .when()
+                .when()
                 .post("/api/save-data")
-            .then()
+                .then()
                 .statusCode(200)
                 .body("game_id", notNullValue())
                 .body("round_id", notNullValue())
@@ -113,7 +113,10 @@ public class GuiControllerTest {
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("X-UserID", "1")
-                .body(new JSONObject().put("playerId", 1).toString())
+                .body(new JSONObject()
+                        .put("playerId", 1)
+                        .put("turnId", 1)
+                        .toString())
                 .when()
                 .post("/api/update-data")
                 .then()
@@ -133,7 +136,10 @@ public class GuiControllerTest {
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("X-UserID", "1")
-                .body(new JSONObject().put("playerId", 1).toString())
+                .body(new JSONObject()
+                        .put("playerId", 1)
+                        .put("turnId", 1)
+                        .toString())
                 .when()
                 .post("/api/update-data")
                 .then()
