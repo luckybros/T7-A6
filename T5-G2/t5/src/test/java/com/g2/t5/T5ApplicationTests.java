@@ -26,7 +26,7 @@ public class T5ApplicationTests {
 	public static WebDriver driver;
 	public static Duration timeout = Duration.ofMillis(20000);
 
-    // Per eseguire il test disabilita AuthenticationFilter
+    // Per eseguire il test disabilita AuthenticationFilter in api_gateway
     //@Test
     public void startGameTest() {
 		System.setProperty("webdriver.chrome.driver", "src/test/java/drivers/chromedriver.exe");
