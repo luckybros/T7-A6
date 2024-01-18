@@ -214,11 +214,9 @@ public class GuiController {
     public ResponseEntity<String> saveGame(@RequestParam("playerId") long playerId,
             HttpServletRequest request) {
 
-        // Disabilitato per testing
-        /*
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
-        */
+        
 
         g.setPlayerId(playerId);
         g.setStartedAt(getCurrentDateTime());
@@ -248,12 +246,9 @@ public class GuiController {
             @RequestParam("turnId") int turnId,
             HttpServletRequest request) {
 
-        // Disabilitato per testing
-        /*
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
-        */
-
+        
         g.setUpdatedAt(getCurrentDateTime());
 
         boolean esito = false;

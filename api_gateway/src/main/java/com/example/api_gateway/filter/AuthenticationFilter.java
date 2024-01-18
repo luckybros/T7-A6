@@ -25,8 +25,6 @@ public class AuthenticationFilter extends ZuulFilter{
 	
 	@Override
 	public boolean shouldFilter() {
-		// disabilitare per testing in t5:
-		// return false
 		return true;
 	}
 
