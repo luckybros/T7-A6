@@ -198,12 +198,14 @@ public class GuiController {
         System.out.println("Robot ricevuto: " + robot);
         System.out.println("Difficoltà ricevuta: " + difficulty);
 
+        
         g.setTestedClass(classe);
         g.setRobot(robot);
         g.setDifficulty(difficulty);
         g.setName("nome");
 
         g.setCreatedAt(getCurrentDateTime());
+        
 
         return ResponseEntity.ok("Dati ricevuti con successo");
     }
@@ -212,8 +214,10 @@ public class GuiController {
     public ResponseEntity<String> saveGame(@RequestParam("playerId") long playerId,
             HttpServletRequest request) {
 
+        /*
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
+        */
 
         g.setPlayerId(playerId);
         g.setStartedAt(getCurrentDateTime());
@@ -243,8 +247,10 @@ public class GuiController {
             @RequestParam("turnId") int turnId,
             HttpServletRequest request) {
 
+        /*
         if (!request.getHeader("X-UserID").equals(String.valueOf(playerId)))
             return ResponseEntity.badRequest().body("Unauthorized");
+        */
 
         g.setUpdatedAt(getCurrentDateTime());
 
