@@ -32,6 +32,7 @@ func (CreateRequest) Validate() error {
 }
 
 type UpdateRequest struct {
+	RoundId   int64      `json:"roundId"`
 	Scores    string     `json:"scores,omitempty"`
 	IsWinner  bool       `json:"isWinner"`
 	StartedAt *time.Time `json:"startedAt,omitempty"`

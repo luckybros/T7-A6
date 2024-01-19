@@ -51,11 +51,11 @@ func (CreateRequest) Validate() error {
 }
 
 type UpdateRequest struct {
-	CurrentRound int        `json:"currentRound"`
-	Name         string     `json:"name"`
-	Description  string     `json:"description"`
-	StartedAt    *time.Time `json:"startedAt,omitempty"`
-	ClosedAt     *time.Time `json:"closedAt,omitempty"`
+	Round       int        `json:"round,omitempty"`
+	Name        string     `json:"name,omitempty"`
+	Description string     `json:"description,omitempty"`
+	StartedAt   *time.Time `json:"startedAt,omitempty"`
+	ClosedAt    *time.Time `json:"closedAt,omitempty"`
 }
 
 func (UpdateRequest) Validate() error {

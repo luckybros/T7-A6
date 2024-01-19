@@ -35,11 +35,11 @@ func (suite *ControllerSuite) SetupSuite() {
 			mock.MatchedBy(func(id int64) bool { return id != 1 })).
 		Return(api.ErrNotFound).
 		On("Update", int64(1),
-			&UpdateRequest{Name: "test", CurrentRound: 10}).
+			&UpdateRequest{Name: "test", Round: 10}).
 		Return(Game{}, nil).
 		On("Update",
 			mock.MatchedBy(func(id int64) bool { return id != 1 }),
-			&UpdateRequest{Name: "test", CurrentRound: 10}).
+			&UpdateRequest{Name: "test", Round: 10}).
 		Return(nil, api.ErrNotFound).
 		On("FindByInterval", mock.Anything, mock.Anything).
 		Return([]Game{}, int(64), nil).
@@ -175,25 +175,25 @@ func (suite *ControllerSuite) TestUpdate() {
 		{
 			Name:           "T00-09-BadId",
 			ExpectedStatus: http.StatusBadRequest,
-			Body:           ` {"currentRound": 10, "name: "test"}`,
+			Body:           ` {"round": 10, "name: "test"}`,
 			Id:             `1a`,
 		},
 		{
 			Name:           "T00-10-GameUpdated",
 			ExpectedStatus: http.StatusOK,
-			Body:           `{"currentRound": 10, "name": "test"}`,
+			Body:           `{"round": 10, "name": "test"}`,
 			Id:             `1`,
 		},
 		{
 			Name:           "T00-11-InvalidJSON",
 			ExpectedStatus: http.StatusBadRequest,
-			Body:           ` {"currentRound": 10, "name: "test"}`,
+			Body:           ` {"round": 10, "name: "test"}`,
 			Id:             `1`,
 		},
 		{
 			Name:           "T00-12-GameNotFound",
 			ExpectedStatus: http.StatusNotFound,
-			Body:           ` {"currentRound": 10, "name": "test"}`,
+			Body:           ` {"round": 10, "name": "test"}`,
 			Id:             `11`,
 		},
 	}

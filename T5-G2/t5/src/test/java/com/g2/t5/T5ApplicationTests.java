@@ -26,12 +26,13 @@ public class T5ApplicationTests {
 	public static WebDriver driver;
 	public static Duration timeout = Duration.ofMillis(20000);
 
+    // Una volta che avete modificato path, email e password rimuovete il commento a @Test per poterlo eseguire
     //@Test
     public void startGameTest() {
 		System.setProperty("webdriver.chrome.driver", "src/test/java/drivers/chromedriver.exe");
 
 		ChromeOptions options = new ChromeOptions();
-		options.setBinary("src/test/java/chrome-win64/chrome.exe");
+		options.setBinary("src/test/java/chrome-win64/chrome.exe"); // Modifica path
 
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -43,8 +44,8 @@ public class T5ApplicationTests {
 		driver.manage().window().maximize();
 
         driver.get("http://localhost/login");	
-        driver.findElement(By.id("email")).sendKeys("valeriodomenicoconte@gmail.com");
-        driver.findElement(By.id("password")).sendKeys("Vale2001");
+        driver.findElement(By.id("email")).sendKeys("your@email.com"); // Modifica email
+        driver.findElement(By.id("password")).sendKeys("yourPassword"); // Modifica password
         driver.findElement(By.cssSelector("input[type=submit]")).click();
 
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
@@ -81,7 +82,5 @@ public class T5ApplicationTests {
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.urlToBe(urlEditor));
 
         Assert.assertEquals("Test fallito: i dati non sono stati inviati.", driver.getCurrentUrl(), urlEditor);
-
     }
-
 }

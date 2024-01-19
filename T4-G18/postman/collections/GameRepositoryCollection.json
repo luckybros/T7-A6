@@ -4115,7 +4115,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<long>\",\n  \"currentRound\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\",\n  \"players\": [\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    }\n  ]\n}"
+									"body": "{\n  \"id\": \"<long>\",\n  \"round\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\",\n  \"players\": [\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    }\n  ]\n}"
 								},
 								{
 									"id": "75e49e3a-92f4-4e72-8458-3f249705256d",
@@ -4295,7 +4295,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -4339,7 +4339,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -4373,7 +4373,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<long>\",\n  \"currentRound\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\",\n  \"players\": [\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    }\n  ]\n}"
+									"body": "{\n  \"id\": \"<long>\",\n  \"round\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\",\n  \"players\": [\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"accountId\": \"<string>\"\n    }\n  ]\n}"
 								},
 								{
 									"id": "7631d6a1-ee90-48c6-be9e-23ef34dda363",
@@ -4392,7 +4392,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -4445,7 +4445,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -4498,7 +4498,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -4551,7 +4551,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -4604,7 +4604,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"currentRound\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"round\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -4949,7 +4949,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"id\": \"<long>\",\n  \"currentRound\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}"
+							"body": "{\n  \"id\": \"<long>\",\n  \"round\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"startedAt\": \"<dateTime>\",\n  \"closedAt\": \"<dateTime>\"\n}"
 						},
 						{
 							"id": "c0214829-0c9c-492c-8fa9-e97ee60cbc14",
@@ -5252,7 +5252,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"metadata\": {\n    \"hasNext\": \"<boolean>\",\n    \"count\": \"<long>\",\n    \"page\": \"<long>\",\n    \"pageSize\": \"<long>\"\n  },\n  \"data\": [\n    {\n      \"id\": \"<long>\",\n      \"currentRound\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"difficulty\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"startedAt\": \"<dateTime>\",\n      \"closedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"currentRound\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"difficulty\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"startedAt\": \"<dateTime>\",\n      \"closedAt\": \"<dateTime>\"\n    }\n  ]\n}"
+							"body": "{\n  \"metadata\": {\n    \"hasNext\": \"<boolean>\",\n    \"count\": \"<long>\",\n    \"page\": \"<long>\",\n    \"pageSize\": \"<long>\"\n  },\n  \"data\": [\n    {\n      \"id\": \"<long>\",\n      \"round\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"difficulty\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"startedAt\": \"<dateTime>\",\n      \"closedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"round\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"difficulty\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"startedAt\": \"<dateTime>\",\n      \"closedAt\": \"<dateTime>\"\n    }\n  ]\n}"
 						},
 						{
 							"id": "83dbd539-6d56-49ed-adef-c52da347d8bc",

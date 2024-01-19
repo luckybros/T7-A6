@@ -233,6 +233,7 @@ public class MyController {
 
             obj = new JSONObject();
             obj.put("scores", String.valueOf(userScore));
+            obj.put("roundId", String.valueOf(request.getParameter("roundId")));
 
             if (roboScore > userScore) {
                 obj.put("isWinner", false);
