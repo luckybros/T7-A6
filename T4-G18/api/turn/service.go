@@ -83,7 +83,8 @@ func (tr *Repository) CreateBulk(r *CreateRequest) ([]Turn, error) {
 func (tr *Repository) Update(id int64, r *UpdateRequest) (Turn, error) {
 
 	var (
-		turn model.Turn = model.Turn{ID: id, RoundID: r.RoundId}
+		// Aggiungere query RoundID: r.RoundId
+		turn model.Turn = model.Turn{ID: id}
 		err  error
 	)
 
