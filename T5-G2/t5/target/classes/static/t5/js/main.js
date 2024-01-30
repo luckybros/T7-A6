@@ -6,6 +6,7 @@ var difficulty = null
 var user = null
 var password = null
 var classe = null
+var gameMode = null;
 
 // Variabile per tenere traccia del bottone precedentemente selezionato
 var bottonePrecedente1 = null
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', e => {
 function Handlebuttonclass (id, button) {
   $(document).ready(function () {
     classe = id
+    gameMode = "bossRush";
     console.log('Hai cliccato sul bottone delle classi con id: ' + classe)
     document
       .querySelectorAll('span.levels:not(.hidden)')
