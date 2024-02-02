@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import org.apache.http.client.utils.URIBuilder;
 
 public class RunnerHelper {
+    
     public class ScorePair {
         private String outCompile;
         private int coverage;
@@ -48,13 +49,21 @@ public class RunnerHelper {
 
     public final HttpClient httpClient = HttpClientBuilder.create().build();
     
-    public void saving(JSONObject result, HttpServletRequest request) throws ClientProtocolException, IOException {
+    public void saving(JSONObject result, HttpServletRequest request, String mode) throws ClientProtocolException, IOException {
         // conclusione e salvataggio partita
         // chiusura turno con vincitore
         HttpPut httpPut = new HttpPut("http://t4-g18-app-1:3000/turns/" + String.valueOf(request.getParameter("turnId")));
     
         JSONObject obj = new JSONObject();
-        obj.put("scores", result.getString("score"));
+
+        if(mode.equals("bossRush")) {
+            int numberOfBeaten = Integer.parseInt(result.getString("numberOfBeaten"));
+            int numberOfUnbeaten = Integer.parseInt(result.getString("numberOfUnbeaten"));
+            obj.put("scores", result.getString("score") + "(" + String.valueOf(numberOfBeaten) + "/" + String.valueOf(numberOfBeaten + numberOfUnbeaten) + ")");
+        }
+        else 
+            obj.put("scores", result.getString("score"));
+
         obj.put("isWinner", result.getString("win"));
     
         String time = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
@@ -150,7 +159,7 @@ public class RunnerHelper {
         int roboScore = roboScoreNormalGet(builder, request);
     
         JSONObject result = responseBuilderNormal(roboScore, userScore);
-        saving(result, request);
+        saving(result, request, "classic");
         return result;
     }
     
@@ -159,7 +168,7 @@ public class RunnerHelper {
         List<Integer> evosuiteScores = roboScoresBossRushGet(builder, "evosuite");
     
         JSONObject result = responseBuilderBossRush(randoopScores, evosuiteScores, userScore);
-        saving(result, request);
+        saving(result, request, "bossRush");
         return result;
     }
     

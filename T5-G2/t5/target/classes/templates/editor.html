@@ -836,6 +836,8 @@ public class TestClasse {
                         messaggio += ", ";
                     }
                     messaggio += ".";
+
+                    alert(messaggio);
                   }
                   
                 } else {
@@ -957,8 +959,14 @@ public class TestClasse {
                       console.log('Terzo elemento della seconda riga:', terzoElemento);
                       consoleArea2.setValue(`Esito Risultati (percentuale di linee coperte)
 Il tuo punteggio EvoSuite: ${terzoElemento}% LOC
-Il tuo punteggio Jacoco: ${risp.score.toString()}% LOC
-Il punteggio del robot: ${risp.robotScore.toString()}% LOC
+Il tuo punteggio Jacoco: ${risp.score.toString()}% LOC`);
+
+                      if (localStorage.getItem("gameMode") != "bossRush") {
+                        consoleArea2.setValue(consoleArea2.getValue() + `
+Il punteggio del robot: ${risp.robotScore.toString()}% LOC`);
+                      }
+
+                    consoleArea2.setValue(consoleArea2.getValue() + `
 Informazioni aggiuntive di copertura:
 Il tuo punteggio EvoSuite: ${terzoElemento1}% Branch
 Il tuo punteggio EvoSuite: ${terzoElemento2}% Exception
