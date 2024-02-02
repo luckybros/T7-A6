@@ -35,6 +35,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.T6.RunnerHelper.ScorePair;
+
 import org.json.JSONObject;
 import org.apache.http.client.utils.URIBuilder;
 //import net.minidev.json.JSONObject;
@@ -86,7 +89,7 @@ public class MyController {
         }
     }
 
-    private final HttpClient httpClient = HttpClientBuilder.create().build();
+    public final HttpClient httpClient = HttpClientBuilder.create().build();
 
     // questa è la parte in cui interagiamo con T7
     @PostMapping("/sendInfo") // COMPILA IL CODICE DELL'UTENTE E RESTITUISCE OUTPUT DI COMPILAZIONE CON MVN
@@ -166,144 +169,35 @@ public class MyController {
     // // }
     // }
     // FUNZIONE CHE DOVREBBE RICEVERE I RISULTATI DEI ROBOT
-
+    
     @PostMapping("/run") // NON ESISTE NESSUN INTERFACCIA VERSO I COMPILATORI DEI ROBOT EVOSUITE E
                          // RANDOOP
     public ResponseEntity<String> runner(HttpServletRequest request) {
         try {
-            // Esegui la richiesta HTTP al servizio di destinazione
-            // RISULTATI UTENTE VERSO TASK 7
-            HttpPost httpPost = new HttpPost("http://remoteccc-app-1:1234/compile-and-codecoverage");
-
-            JSONObject obj = new JSONObject();
-            obj.put("testingClassName", request.getParameter("testingClassName"));
-            obj.put("testingClassCode", request.getParameter("testingClassCode"));
-            obj.put("underTestClassName", request.getParameter("underTestClassName"));
-            obj.put("underTestClassCode", request.getParameter("underTestClassCode"));
-
-            StringEntity jsonEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
-
-            httpPost.setEntity(jsonEntity);
-
-            HttpResponse response = httpClient.execute(httpPost);
-
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode > 299) {
-                System.out.println("Errore in compilecodecoverage");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            HttpEntity entity = response.getEntity();
-
-            String responseBody = EntityUtils.toString(entity);
-            JSONObject responseObj = new JSONObject(responseBody);
-
-            String xml_string = responseObj.getString("coverage");
-            String outCompile = responseObj.getString("outCompile");
-            // PRESA DELLO SCORE UTENTE
-            int userScore = ParseUtil.LineCoverage(xml_string);
-
+            RunnerHelper runnerHelper = new RunnerHelper();
+            // richiesta per ottenere la coverage del giocatore dal T7
+            // REFACTORING : aggiunto un nuovo metodo
+            ScorePair userScore = runnerHelper.getUserScore(request);
+            if(userScore.getOutCompile().equals("error")) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    
             // RISULTATI ROBOT VERSO TASK4
             URIBuilder builder = new URIBuilder("http://t4-g18-app-1:3000/robots");
-            builder.setParameter("testClassId", request.getParameter("testClassId"))
-                    .setParameter("type", request.getParameter("type"))
-                    .setParameter("difficulty", request.getParameter("difficulty"));
-
-            HttpGet get = new HttpGet(builder.build());
-            response = httpClient.execute(get);
-            get.releaseConnection();
-            // Verifica lo stato della risposta
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode > 299) {
-                System.out.println("Errore in robots");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            // Leggi il contenuto dalla risposta
-            entity = response.getEntity();
-            responseBody = EntityUtils.toString(entity);
-            responseObj = new JSONObject(responseBody);
-
-            String score = responseObj.getString("scores");
-            Integer roboScore = Integer.parseInt(score);
-
-            // conclusione e salvataggio partita
-            // chiusura turno con vincitore
-            HttpPut httpPut = new HttpPut("http://t4-g18-app-1:3000/turns/" + String.valueOf(request.getParameter("turnId")));
-
-            obj = new JSONObject();
-            obj.put("scores", String.valueOf(userScore));
-            obj.put("roundId", String.valueOf(request.getParameter("roundId")));
-
-            if (roboScore > userScore) {
-                obj.put("isWinner", false);
-            } else {
-                obj.put("isWinner", true);
-            }
-            String time = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
-            obj.put("closedAt", time);
-
-            jsonEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
-
-            httpPut.setEntity(jsonEntity);
-
-            response = httpClient.execute(httpPut);
-            httpPut.releaseConnection();
-
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode > 299) {
-                System.out.println("Errore in put turn");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            // chiusura round
-            httpPut = new HttpPut("http://t4-g18-app-1:3000/rounds/" + String.valueOf(request.getParameter("roundId")));
-
-            obj = new JSONObject();
-
-            obj.put("closedAt", time);
-
-            jsonEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
-
-            httpPut.setEntity(jsonEntity);
-
-            response = httpClient.execute(httpPut);
-            httpPut.releaseConnection();
-
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode > 299) {
-                System.out.println("Errore in put round");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            // chiusura gioco
-            httpPut = new HttpPut("http://t4-g18-app-1:3000/games/" + String.valueOf(request.getParameter("gameId")));
-
-            obj = new JSONObject();
-            obj.put("closedAt", time);
-
-            jsonEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
-
-            httpPut.setEntity(jsonEntity);
-
-            response = httpClient.execute(httpPut);
-            httpPut.releaseConnection();
+            builder.setParameter("testClassId", request.getParameter("testClassId"));
             
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode > 299) {
-                System.out.println("Errore in put game");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            // costruzione risposta verso task5
             JSONObject result = new JSONObject();
-            result.put("outCompile", outCompile);
-            result.put("coverage", xml_string);
-            result.put("win", userScore >= roboScore);
-            result.put("robotScore", roboScore);
-            result.put("score", userScore);
-
+            // 
+            if(request.getParameter("gameMode").equals("bossRush")) {
+                result = runnerHelper.bossRushRunner(builder, userScore, request);
+            }
+            else {
+                result = runnerHelper.normalRunner(builder, userScore, request);
+            }
+    
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-
+    
             return new ResponseEntity<>(result.toString(), headers, HttpStatus.OK);
+            
         } catch (Exception e) {
             // Gestisci eventuali errori e restituisci un messaggio di errore al client
             System.err.println(e);

@@ -784,6 +784,7 @@ public class TestClasse {
             formData.append("testClassId", localStorage.getItem("classe"));
             formData.append("difficulty", localStorage.getItem("difficulty"));
             formData.append("type", localStorage.getItem("robot")); // modificato
+            formData.append("gameMode", localStorage.getItem("gameMode"));
             $.ajax({
               url: "http://localhost/api/run", // con questa verso il task 6, si salva e conclude la partita e si decreta il vincitore
               type: "POST",
@@ -796,16 +797,60 @@ public class TestClasse {
 
                 risp = response;
 
-                perc_robot = response.robotScore.toString();
-              
-                consoleArea.setValue(response.outCompile);
-                highlightCodeCoverage($.parseXML(response.coverage));
-                /*consoleArea2.setValue(`Esito Risultati (percentuale di linee coperte)
-  Il tuo punteggio: ${response.score.toString()}% LOC
-  Il punteggio del robot: ${response.robotScore.toString()}% LOC`);*/
+                if (localStorage.getItem("gameMode") == "bossRush") {
+                  if(response.win == true)
+                    alert("Eccellente: Hai battuto tutti i Robot!");
+
+                  if(response.numberOfBeaten == 0)  
+                    alert("Oh no! Non hai battuto nessun Robot! Riprova!")
+
+                  else {
+                    var numberOfBeaten = response.numberOfBeaten;
+                    var numberOfUnbeaten = response.numberOfUnbeaten;
+
+                    var messaggio = "Bravo! Hai totalizzato (" + response.score + "% LOC coverage) e hai vinto contro  ";
+
+                    for(var i = 1; i <= numberOfBeaten; i++) {
+                      // da rivedere come accedere al valore di un oggetto JSON
+                      // nel caso in cui la chiave è una variabile che costruiamo
+                      // prima
+                      var chiaveBeaten = "beaten" + i;
+                      var datiRobotBattuto = response[chiaveBeaten];
+                      var dati = datiRobotBattuto.split("&");
+                      var index = dati[0];
+                      var coverage = dati[1];
+                      messaggio += "Robot " + index + "(" + coverage + "%)"
+                      if(i != numberOfBeaten)
+                        messaggio += ", ";
+                    }
+                    messaggio += ". Ti restano da battere "
+
+                    for(var i = 1; i <= numberOfUnbeaten; i++) {
+                      var chiaveUnbeaten = "unbeaten" + i;
+                      var datiRobotNonBattuto = response[chiaveUnbeaten];
+                      var dati = datiRobotNonBattuto.split("&");
+                      var index = dati[0];
+                      var coverage = dati[1];
+                      messaggio += "Robot " + index + "(" + coverage + "%)"
+                      if(i != numberOfBeaten)
+                        messaggio += ", ";
+                    }
+                    messaggio += ".";
+                  }
+                  
+                } else {
+                  perc_robot = response.robotScore.toString();
                 
-                alert(response.win == true ? "Hai vinto!" : "Hai perso!");
-                //localStorage.clear();
+                  consoleArea.setValue(response.outCompile);
+                  highlightCodeCoverage($.parseXML(response.coverage));
+                  /*consoleArea2.setValue(`Esito Risultati (percentuale di linee coperte)
+    Il tuo punteggio: ${response.score.toString()}% LOC
+    Il punteggio del robot: ${response.robotScore.toString()}% LOC`);*/
+                  
+                  alert(response.win == true ? "Hai vinto!" : "Hai perso!");
+                  //localStorage.clear();
+                  
+                }
                 if(response.win == true){
                   turno++;  // incremento il numero di turno giocati fino ad ora
                   //localStorage.clear();
