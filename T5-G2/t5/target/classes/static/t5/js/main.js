@@ -104,6 +104,7 @@ function redirectToPagereport () {
     localStorage.setItem('classe', classe)
     localStorage.setItem('robot', robot)
     localStorage.setItem('difficulty', difficulty)
+    localStorage.setItem('gameMode', gameMode)
 
     $.ajax({
       url: 'http://localhost/api/sendGameVariables',
