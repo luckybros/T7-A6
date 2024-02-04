@@ -6,7 +6,7 @@ var difficulty = null
 var user = null
 var password = null
 var classe = null
-var gameMode = null;
+// var gameMode = null;
 
 // Variabile per tenere traccia del bottone precedentemente selezionato
 var bottonePrecedente1 = null
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', e => {
 function Handlebuttonclass (id, button) {
   $(document).ready(function () {
     classe = id
-    gameMode = "bossRush";
+    // gameMode = "bossRush";
     console.log('Hai cliccato sul bottone delle classi con id: ' + classe)
     document
       .querySelectorAll('span.levels:not(.hidden)')
@@ -68,16 +68,16 @@ function Handlebuttonclass (id, button) {
 function Handlebuttonrobot (id, button, rob, size) {
   //modificato
   $(document).ready(function () {
-    robot = rob
-    if (robot == 'evosuite') {
+    robot = "Tutti i robot"
+    /*if (robot == 'evosuite') {
       // aggiunto
       difficulty = parseInt(id) - parseInt(size) / 2 // devo prendere l'id attuale meno la metà della grandezza totale del vettore di robot
       difficulty = difficulty.toString()
     } else {
       // aggiunto
       difficulty = id
-    }
-    //difficulty = id;
+    }*/
+    difficulty = id;
     console.log('Hai cliccato sul bottone del robot con id: ' + robot)
 
     // Se il bottone precedentemente selezionato è diverso da null
@@ -102,9 +102,9 @@ function redirectToPagereport () {
 
   if (classe && robot && difficulty) {
     localStorage.setItem('classe', classe)
-    localStorage.setItem('robot', robot)
+    localStorage.setItem('robot', "Tutti i robot")
     localStorage.setItem('difficulty', difficulty)
-    localStorage.setItem('gameMode', gameMode)
+    // localStorage.setItem('gameMode', gameMode)
 
     $.ajax({
       url: 'http://localhost/api/sendGameVariables',

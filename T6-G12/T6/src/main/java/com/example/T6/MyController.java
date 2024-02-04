@@ -186,7 +186,7 @@ public class MyController {
             
             JSONObject result = new JSONObject();
             // 
-            if(request.getParameter("gameMode").equals("bossRush")) {
+            if(request.getParameter("robot").equals("Tutti i robot")) {
                 result = runnerHelper.bossRushRunner(builder, userScore, request);
             }
             else {

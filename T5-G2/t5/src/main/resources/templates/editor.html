@@ -784,7 +784,7 @@ public class TestClasse {
             formData.append("testClassId", localStorage.getItem("classe"));
             formData.append("difficulty", localStorage.getItem("difficulty"));
             formData.append("type", localStorage.getItem("robot")); // modificato
-            formData.append("gameMode", localStorage.getItem("gameMode"));
+            // formData.append("gameMode", localStorage.getItem("gameMode"));
             $.ajax({
               url: "http://localhost/api/run", // con questa verso il task 6, si salva e conclude la partita e si decreta il vincitore
               type: "POST",
@@ -797,7 +797,7 @@ public class TestClasse {
 
                 risp = response;
 
-                if (localStorage.getItem("gameMode") == "bossRush") {
+                if (localStorage.getItem("robot") == "Tutti i robot") {
                   if(response.win == true)
                     alert("Eccellente: Hai battuto tutti i Robot!");
 
@@ -961,7 +961,7 @@ public class TestClasse {
 Il tuo punteggio EvoSuite: ${terzoElemento}% LOC
 Il tuo punteggio Jacoco: ${risp.score.toString()}% LOC`);
 
-                      if (localStorage.getItem("gameMode") != "bossRush") {
+                      if (localStorage.getItem("robot") != "Tutti i robot") {
                         consoleArea2.setValue(consoleArea2.getValue() + `
 Il punteggio del robot: ${risp.robotScore.toString()}% LOC`);
                       }
